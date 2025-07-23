@@ -3,20 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-    <title>CrimiTrack PWA</title>
+    <title>CrimiTrack Mobile</title>
     
     <!-- Apple PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="CrimiTrack">
     <meta name="format-detection" content="telephone=no">
-    <meta name="theme-color" content="#6366f1">
+    <meta name="theme-color" content="#2563eb">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==">
-    
-    <!-- Manifest -->
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICAgIm5hbWUiOiAiQ3JpbWlUcmFjayBQV0EiLAogICAgInNob3J0X25hbWUiOiAiQ3JpbWlUcmFjayIsCiAgICAiZGVzY3JpcHRpb24iOiAiR2VzdGlvbiBkJ2V4cGVydGlzZXMgY3JpbWlub2xvZ2lxdWVzIiwKICAgICJzdGFydF91cmwiOiAiLi8iLAogICAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgICAib3JpZW50YXRpb24iOiAiYW55IiwKICAgICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmZmZmZmYiLAogICAgInRoZW1lX2NvbG9yIjogIiM2MzY2ZjEiLAogICAgImljb25zIjogWwogICAgICAgIHsKICAgICAgICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQUlBQUFBQ0FDQVFBQUFBQTY5RFJRQUFBQzVKUkVGVWVOcnQwMUVLUWtBUUJ1QjJ3ekVBQUFBQVNVVk9SSzVDWUlJPSIsCiAgICAgICAgICAgICJzaXplcyI6ICIxMjh4MTI4IiwKICAgICAgICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAic3JjIjogImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBTUFBQUFEQUNBUUFBQUE5Nmh6VUFBQUJDbEJNVkVVQUFBRC8vLy9aV1Z6dmJ5RG12Ly8vLy8vLy84QUFBZ0VsRVFWUjQyZTNPTVF3QUFBQUFFd0ZFaUVJL0FBQUFBU1VWT1JLNUNZSUk9IiwKICAgICAgICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAgICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFRQUFBQUVBQ0FRQUFBQUNKUHhKcEFBQUJLbEJNVkVVQUFBRC8vLy9aV1Z6dmJ5RG12Ly8vLy8vLy84QUFBZ01FaEVFQUFBQlNrbEVRVlI0MmUzT01Rd0FBQUFBRXdGRWlFSS9BQUFBQVNVVU9SSzVDWUlJPSIsCiAgICAgICAgICAgICJzaXplcyI6ICIyNTZ4MjU2IiwKICAgICAgICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAic3JjIjogImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBZ0FBQUFJQUNBUUFBQUJOZDdOdkFBQUJObEJNVkVVQUFBRC8vLy9aV1Z6dmJ5RG12Ly8vLy8vLy84QUFBZ1FFaEVFQUFBQlZrbEVRVlI0MmUzT01Rd0FBQUFBRXdGRWlFSS9BQUFBQVNVVU9SSzVDWUlJPSIsCiAgICAgICAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgICAgIH0KICAgIF0KfQ==">
     
     <style>
         * {
@@ -27,9 +24,8 @@
         }
         
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --primary-light: #818cf8;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
             --secondary: #f3f4f6;
             --text: #1f2937;
             --text-secondary: #6b7280;
@@ -37,139 +33,65 @@
             --success: #10b981;
             --danger: #ef4444;
             --warning: #f59e0b;
-            --tab-height: 60px;
             --safe-area-top: env(safe-area-inset-top);
             --safe-area-bottom: env(safe-area-inset-bottom);
-            --safe-area-left: env(safe-area-inset-left);
-            --safe-area-right: env(safe-area-inset-right);
         }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
             background: #f9fafb;
             color: var(--text);
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            position: fixed;
+            overflow-x: hidden;
             -webkit-user-select: none;
             user-select: none;
         }
         
         .app-container {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            position: relative;
         }
         
-        /* Navigation Tabs */
-        .tab-navigation {
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: calc(var(--safe-area-top) + 16px) 20px 16px;
             position: sticky;
             top: 0;
             z-index: 100;
-            background: white;
-            border-bottom: 1px solid var(--border);
-            padding-top: var(--safe-area-top);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
-        .tabs {
-            display: flex;
-            height: var(--tab-height);
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            padding: 0 var(--safe-area-left) 0 var(--safe-area-right);
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
         }
         
-        .tabs::-webkit-scrollbar {
-            display: none;
+        .header-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 4px;
         }
         
-        .tab {
-            flex: 0 0 auto;
-            padding: 0 24px;
-            height: var(--tab-height);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            color: var(--text-secondary);
-            position: relative;
-            min-width: 120px;
-        }
-        
-        .tab:active {
-            transform: scale(0.98);
-        }
-        
-        .tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-        
-        .tab .icon {
-            font-size: 20px;
-            margin-right: 8px;
-        }
-        
-        .tab .badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: var(--danger);
-            color: white;
-            font-size: 11px;
-            padding: 2px 6px;
-            border-radius: 12px;
-            min-width: 20px;
-            text-align: center;
-        }
-        
-        /* Content Area */
-        .content-area {
+        /* Main Content */
+        .main-content {
             flex: 1;
-            overflow: hidden;
-            position: relative;
-            padding-bottom: var(--safe-area-bottom);
-        }
-        
-        .tab-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
             padding: 20px;
-            padding-left: calc(20px + var(--safe-area-left));
-            padding-right: calc(20px + var(--safe-area-right));
-            opacity: 0;
-            transform: translateX(100%);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding-bottom: calc(80px + var(--safe-area-bottom));
         }
         
-        .tab-content.active {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        
-        /* Card Component */
+        /* Card */
         .card {
             background: white;
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            padding: 24px;
-            margin-bottom: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
         }
         
         .card-header {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             margin-bottom: 16px;
             color: var(--text);
@@ -177,7 +99,7 @@
         
         /* Form Elements */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         
         .form-label {
@@ -205,28 +127,27 @@
         .form-textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
         
         .form-textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 120px;
         }
         
         /* Buttons */
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            display: inline-block;
             padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 16px;
             border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
-            min-height: 48px;
-            min-width: 48px;
+            text-align: center;
+            text-decoration: none;
+            -webkit-appearance: none;
         }
         
         .btn:active {
@@ -238,18 +159,9 @@
             color: white;
         }
         
-        .btn-primary:active {
-            background: var(--primary-dark);
-        }
-        
         .btn-secondary {
             background: var(--secondary);
             color: var(--text);
-        }
-        
-        .btn-danger {
-            background: var(--danger);
-            color: white;
         }
         
         .btn-success {
@@ -257,231 +169,151 @@
             color: white;
         }
         
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
         .btn-block {
+            display: block;
             width: 100%;
         }
         
-        .btn .icon {
-            margin-right: 8px;
-        }
-        
-        /* Table Component */
-        .table-container {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin: -24px;
-            padding: 24px;
-        }
-        
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 600px;
-        }
-        
-        .table th,
-        .table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .table th {
-            font-weight: 600;
-            color: var(--text);
-            background: var(--secondary);
-            position: sticky;
-            top: 0;
-        }
-        
-        .table tr:active {
-            background: var(--secondary);
-        }
-        
-        /* Calendar Styles */
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-        }
-        
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .calendar-nav {
+        .btn-group {
             display: flex;
             gap: 12px;
+            margin-top: 16px;
         }
         
-        .calendar-day {
-            aspect-ratio: 1;
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--border);
+            padding-bottom: var(--safe-area-bottom);
+            z-index: 100;
+            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-items {
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+        }
+        
+        .nav-item {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            border-radius: 8px;
+            padding: 8px;
             cursor: pointer;
             transition: all 0.2s;
-            position: relative;
-            background: white;
-            border: 1px solid var(--border);
+            color: var(--text-secondary);
         }
         
-        .calendar-day:active {
+        .nav-item:active {
             transform: scale(0.95);
         }
         
-        .calendar-day.today {
-            background: var(--primary-light);
-            color: white;
-            border-color: var(--primary);
-        }
-        
-        .calendar-day.selected {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .calendar-day .date {
-            font-size: 18px;
-            font-weight: 500;
-        }
-        
-        .calendar-day .events {
-            position: absolute;
-            bottom: 4px;
-            display: flex;
-            gap: 2px;
-        }
-        
-        .calendar-day .event-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--warning);
-        }
-        
-        /* Stats Card */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .stat-value {
-            font-size: 36px;
-            font-weight: 700;
+        .nav-item.active {
             color: var(--primary);
         }
         
-        .stat-label {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-top: 4px;
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
         }
         
-        /* Chart Container */
-        .chart-container {
-            height: 300px;
-            position: relative;
-            margin-top: 20px;
+        .nav-label {
+            font-size: 12px;
+            font-weight: 500;
         }
         
-        /* File Upload */
-        .file-upload {
-            border: 2px dashed var(--border);
+        /* Sections */
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .quick-action {
+            background: white;
+            border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 40px;
+            padding: 20px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
         }
         
-        .file-upload:hover {
-            border-color: var(--primary);
-            background: rgba(99, 102, 241, 0.05);
+        .quick-action:active {
+            transform: scale(0.98);
+            background: var(--secondary);
         }
         
-        .file-upload.dragover {
-            border-color: var(--primary);
-            background: rgba(99, 102, 241, 0.1);
-        }
-        
-        .file-upload .icon {
-            font-size: 48px;
-            color: var(--primary);
-            margin-bottom: 16px;
-        }
-        
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-        }
-        
-        .empty-state .icon {
-            font-size: 64px;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-        }
-        
-        .empty-state .title {
-            font-size: 20px;
-            font-weight: 600;
+        .quick-action-icon {
+            font-size: 32px;
             margin-bottom: 8px;
         }
         
-        .empty-state .subtitle {
+        .quick-action-label {
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        /* List Items */
+        .list-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .list-item:active {
+            background: var(--secondary);
+        }
+        
+        .list-item-header {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .list-item-details {
             color: var(--text-secondary);
+            font-size: 14px;
         }
         
-        /* Loading Spinner */
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-        }
-        
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid var(--border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Toast Notifications */
+        /* Toast */
         .toast {
             position: fixed;
-            bottom: calc(20px + var(--safe-area-bottom));
+            bottom: calc(100px + var(--safe-area-bottom));
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) translateY(100px);
             background: var(--text);
             color: white;
-            padding: 16px 24px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            z-index: 200;
             opacity: 0;
             transition: all 0.3s;
-            z-index: 1000;
         }
         
         .toast.show {
@@ -489,602 +321,496 @@
             transform: translateX(-50%) translateY(0);
         }
         
-        /* Responsive Grid */
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 300;
+            padding: 20px;
         }
         
-        /* Landscape Adjustments */
-        @media (orientation: landscape) {
-            .content-area {
-                padding-bottom: 0;
-            }
+        .modal.active {
+            display: flex;
         }
         
-        /* Dark Mode Support */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --secondary: #1f2937;
-                --text: #f9fafb;
-                --text-secondary: #9ca3af;
-                --border: #374151;
-            }
-            
-            body {
-                background: #111827;
-            }
-            
-            .card,
-            .calendar-day {
-                background: #1f2937;
-            }
-            
-            .form-input,
-            .form-select,
-            .form-textarea {
-                background: #1f2937;
-                color: white;
-            }
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .modal-close {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            margin-top: -8px;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .empty-state-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .empty-state-subtitle {
+            font-size: 14px;
+        }
+        
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .badge-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .badge-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .badge-warning {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .badge-danger {
+            background: var(--danger);
+            color: white;
         }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <!-- Tab Navigation -->
-        <nav class="tab-navigation">
-            <div class="tabs" id="tabs">
-                <div class="tab active" data-tab="agenda">
-                    <span class="icon">📅</span>
-                    <span>Agenda</span>
-                </div>
-                <div class="tab" data-tab="waitlist">
-                    <span class="icon">⏰</span>
-                    <span>Liste d'attente</span>
-                    <span class="badge">12</span>
-                </div>
-                <div class="tab" data-tab="mailing">
-                    <span class="icon">📧</span>
-                    <span>Publipostage</span>
-                </div>
-                <div class="tab" data-tab="stats">
-                    <span class="icon">📊</span>
-                    <span>Statistiques</span>
-                </div>
-                <div class="tab" data-tab="convocations">
-                    <span class="icon">📮</span>
-                    <span>Convocations</span>
-                </div>
-                <div class="tab" data-tab="billing">
-                    <span class="icon">💰</span>
-                    <span>Facturation</span>
-                    <span class="badge">187</span>
-                </div>
-            </div>
-        </nav>
+        <!-- Header -->
+        <header class="header">
+            <h1>CrimiTrack Mobile</h1>
+            <div class="header-subtitle">Version simplifiée pour iPad</div>
+        </header>
         
-        <!-- Content Area -->
-        <div class="content-area">
-            <!-- Agenda Tab -->
-            <div class="tab-content active" id="agenda">
-                <div class="card">
-                    <div class="calendar-header">
-                        <h2 class="card-header">Agenda - Juillet 2025</h2>
-                        <div class="calendar-nav">
-                            <button class="btn btn-secondary" onclick="previousMonth()">
-                                <span class="icon">◀</span>
-                            </button>
-                            <button class="btn btn-secondary" onclick="nextMonth()">
-                                <span class="icon">▶</span>
-                            </button>
-                        </div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Section -->
+            <section class="section active" id="home">
+                <div class="quick-actions">
+                    <div class="quick-action" onclick="showNewExpertiseModal()">
+                        <div class="quick-action-icon">➕</div>
+                        <div class="quick-action-label">Nouvelle Expertise</div>
                     </div>
-                    <div class="calendar-grid" id="calendar"></div>
+                    <div class="quick-action" onclick="showImportModal()">
+                        <div class="quick-action-icon">📥</div>
+                        <div class="quick-action-label">Importer Base</div>
+                    </div>
+                    <div class="quick-action" onclick="generateQuickReport()">
+                        <div class="quick-action-icon">📄</div>
+                        <div class="quick-action-label">Compte-rendu</div>
+                    </div>
+                    <div class="quick-action" onclick="showSection('stats'); updateNavigation('stats')">
+                        <div class="quick-action-icon">📊</div>
+                        <div class="quick-action-label">Statistiques</div>
+                    </div>
                 </div>
                 
                 <div class="card">
-                    <h3 class="card-header">Rendez-vous du jour</h3>
-                    <div id="todayAppointments"></div>
-                </div>
-            </div>
-            
-            <!-- Waitlist Tab -->
-            <div class="tab-content" id="waitlist">
-                <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <h2 class="card-header" style="margin: 0;">Liste d'attente</h2>
-                        <button class="btn btn-primary" onclick="showImportDialog()">
-                            <span class="icon">📥</span>
-                            Importer Excel
-                        </button>
-                    </div>
-                    
-                    <div class="table-container">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Patronyme</th>
-                                    <th>Date demande</th>
-                                    <th>Magistrat</th>
-                                    <th>Procédure</th>
-                                    <th>Lieu</th>
-                                    <th>Statut</th>
-                                </tr>
-                            </thead>
-                            <tbody id="waitlistTable">
-                                <tr>
-                                    <td colspan="6" style="text-align: center; padding: 40px;">
-                                        <div class="empty-state">
-                                            <div class="icon">📋</div>
-                                            <div class="title">Aucun dossier en attente</div>
-                                            <div class="subtitle">Importez un fichier Excel pour commencer</div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <h2 class="card-header">Expertises récentes</h2>
+                    <div id="recentExpertises">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <div class="empty-state-title">Aucune expertise</div>
+                            <div class="empty-state-subtitle">Commencez par ajouter une nouvelle expertise</div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
             
-            <!-- Mailing Tab -->
-            <div class="tab-content" id="mailing">
+            <!-- Expertises Section -->
+            <section class="section" id="expertises">
                 <div class="card">
-                    <h2 class="card-header">Publipostage</h2>
+                    <h2 class="card-header">Liste des expertises</h2>
+                    <button class="btn btn-primary btn-block" onclick="showNewExpertiseModal()">
+                        Ajouter une expertise
+                    </button>
+                    <div id="expertisesList" style="margin-top: 20px;">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📁</div>
+                            <div class="empty-state-title">Aucune expertise</div>
+                            <div class="empty-state-subtitle">Base de données vide</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Documents Section -->
+            <section class="section" id="documents">
+                <div class="card">
+                    <h2 class="card-header">Générer un document</h2>
                     
                     <div class="form-group">
-                        <label class="form-label">Sélectionner un modèle</label>
-                        <select class="form-select" id="templateSelect">
-                            <option value="">-- Choisir un modèle --</option>
+                        <label class="form-label">Type de document</label>
+                        <select class="form-select" id="docType">
+                            <option value="">-- Sélectionner --</option>
                             <option value="convocation">Convocation standard</option>
-                            <option value="instruction">Instruction</option>
-                            <option value="expertise">Expertise médicale</option>
-                            <option value="victime">Courrier victime</option>
+                            <option value="compte-rendu">Compte-rendu d'expertise</option>
+                            <option value="attestation">Attestation</option>
+                            <option value="facture">Facture</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Variables disponibles</label>
-                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                            <span class="badge" style="background: var(--secondary); color: var(--text); padding: 6px 12px; border-radius: 20px;">{{patronyme}}</span>
-                            <span class="badge" style="background: var(--secondary); color: var(--text); padding: 6px 12px; border-radius: 20px;">{{date_exam}}</span>
-                            <span class="badge" style="background: var(--secondary); color: var(--text); padding: 6px 12px; border-radius: 20px;">{{lieu}}</span>
-                            <span class="badge" style="background: var(--secondary); color: var(--text); padding: 6px 12px; border-radius: 20px;">{{magistrat}}</span>
-                            <span class="badge" style="background: var(--secondary); color: var(--text); padding: 6px 12px; border-radius: 20px;">{{procedure}}</span>
-                        </div>
+                        <label class="form-label">Expertise concernée</label>
+                        <select class="form-select" id="docExpertise">
+                            <option value="">-- Sélectionner ou créer --</option>
+                            <option value="new">➕ Nouvelle expertise manuelle</option>
+                        </select>
                     </div>
                     
-                    <div class="form-group">
-                        <label class="form-label">Contenu du document</label>
-                        <textarea class="form-textarea" rows="10" placeholder="Rédigez votre document en utilisant les variables..."></textarea>
-                    </div>
-                    
-                    <button class="btn btn-primary btn-block" onclick="generateDocument()">
-                        <span class="icon">📄</span>
-                        Générer les documents
+                    <button class="btn btn-success btn-block" onclick="generateDocument()">
+                        Générer le document
                     </button>
                 </div>
-            </div>
+                
+                <div class="card">
+                    <h2 class="card-header">Documents récents</h2>
+                    <div id="recentDocuments">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📄</div>
+                            <div class="empty-state-title">Aucun document</div>
+                            <div class="empty-state-subtitle">Les documents générés apparaîtront ici</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
             
-            <!-- Statistics Tab -->
-            <div class="tab-content" id="stats">
+            <!-- Stats Section -->
+            <section class="section" id="stats">
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-value">247</div>
-                        <div class="stat-label">Expertises réalisées</div>
+                        <div class="stat-value" id="totalExpertises">0</div>
+                        <div class="stat-label">Expertises totales</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value">12</div>
+                        <div class="stat-value" id="monthExpertises">0</div>
+                        <div class="stat-label">Ce mois-ci</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="pendingExpertises">0</div>
                         <div class="stat-label">En attente</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value">89%</div>
-                        <div class="stat-label">Taux de présence</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">3.2j</div>
+                        <div class="stat-value" id="avgDelay">0j</div>
                         <div class="stat-label">Délai moyen</div>
                     </div>
                 </div>
                 
                 <div class="card">
-                    <h3 class="card-header">Répartition par type d'expertise</h3>
-                    <div class="chart-container">
-                        <canvas id="expertiseChart"></canvas>
+                    <h2 class="card-header">Répartition par type</h2>
+                    <div id="typeStats" style="margin-top: 16px;">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📊</div>
+                            <div class="empty-state-title">Pas de données</div>
+                            <div class="empty-state-subtitle">Ajoutez des expertises pour voir les statistiques</div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="card">
-                    <h3 class="card-header">Évolution mensuelle</h3>
-                    <div class="chart-container">
-                        <canvas id="monthlyChart"></canvas>
-                    </div>
-                </div>
-            </div>
+            </section>
             
-            <!-- Convocations Tab -->
-            <div class="tab-content" id="convocations">
+            <!-- Settings Section -->
+            <section class="section" id="settings">
                 <div class="card">
-                    <h2 class="card-header">Génération de convocations</h2>
+                    <h2 class="card-header">Paramètres</h2>
                     
                     <div class="form-group">
-                        <label class="form-label">Type de convocation</label>
-                        <select class="form-select">
-                            <option>Convocation expertise standard</option>
-                            <option>Convocation urgente</option>
-                            <option>Convocation victime</option>
-                            <option>Convocation avec interprète</option>
-                        </select>
+                        <label class="form-label">Nom du praticien</label>
+                        <input type="text" class="form-input" id="practitionerName" value="Dr. Gautrelet">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Date de convocation</label>
-                        <input type="date" class="form-input" value="2025-07-25">
+                        <label class="form-label">Adresse du cabinet</label>
+                        <textarea class="form-textarea" id="practitionerAddress">123 rue Example
+75001 Paris</textarea>
                     </div>
                     
-                    <div class="form-group">
-                        <label class="form-label">Heure</label>
-                        <input type="time" class="form-input" value="09:00">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Lieu</label>
-                        <select class="form-select">
-                            <option>Cabinet - 123 rue Example, Paris</option>
-                            <option>Tribunal de Paris</option>
-                            <option>Commissariat central</option>
-                            <option>Autre (préciser)</option>
-                        </select>
-                    </div>
-                    
-                    <button class="btn btn-success btn-block" onclick="generateConvocations()">
-                        <span class="icon">✉️</span>
-                        Générer les convocations
+                    <button class="btn btn-primary btn-block" onclick="saveSettings()">
+                        Enregistrer les paramètres
                     </button>
                 </div>
                 
                 <div class="card">
-                    <h3 class="card-header">Convocations récentes</h3>
-                    <div class="table-container">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Destinataire</th>
-                                    <th>Type</th>
-                                    <th>Statut</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>23/07/2025</td>
-                                    <td>MARTIN Jean</td>
-                                    <td>Standard</td>
-                                    <td><span style="color: var(--success);">Envoyée</span></td>
-                                </tr>
-                                <tr>
-                                    <td>22/07/2025</td>
-                                    <td>DUPONT Marie</td>
-                                    <td>Urgente</td>
-                                    <td><span style="color: var(--warning);">En cours</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Billing Tab -->
-            <div class="tab-content" id="billing">
-                <div class="card">
-                    <h2 class="card-header">Facturation en cours</h2>
-                    
-                    <div class="stats-grid" style="margin-bottom: 30px;">
-                        <div class="stat-card">
-                            <div class="stat-value">187</div>
-                            <div class="stat-label">Factures en attente</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">52 340€</div>
-                            <div class="stat-label">Montant total</div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Rechercher une facture</label>
-                        <input type="text" class="form-input" placeholder="Nom, numéro de procédure...">
-                    </div>
-                    
-                    <button class="btn btn-primary" onclick="exportBilling()">
-                        <span class="icon">📊</span>
-                        Exporter vers Excel
+                    <h2 class="card-header">Données</h2>
+                    <button class="btn btn-secondary btn-block" onclick="exportData()">
+                        Exporter les données
+                    </button>
+                    <button class="btn btn-danger btn-block" onclick="clearData()" style="margin-top: 12px;">
+                        Effacer toutes les données
                     </button>
                 </div>
+            </section>
+        </main>
+        
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-items">
+                <div class="nav-item active" onclick="showSection('home')">
+                    <div class="nav-icon">🏠</div>
+                    <div class="nav-label">Accueil</div>
+                </div>
+                <div class="nav-item" onclick="showSection('expertises')">
+                    <div class="nav-icon">📋</div>
+                    <div class="nav-label">Expertises</div>
+                </div>
+                <div class="nav-item" onclick="showSection('documents')">
+                    <div class="nav-icon">📄</div>
+                    <div class="nav-label">Documents</div>
+                </div>
+                <div class="nav-item" onclick="showSection('stats')">
+                    <div class="nav-icon">📊</div>
+                    <div class="nav-label">Stats</div>
+                </div>
+                <div class="nav-item" onclick="showSection('settings')">
+                    <div class="nav-icon">⚙️</div>
+                    <div class="nav-label">Réglages</div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Toast -->
+        <div class="toast" id="toast"></div>
+        
+        <!-- New Expertise Modal -->
+        <div class="modal" id="newExpertiseModal">
+            <div class="modal-content">
+                <span class="modal-close" onclick="closeModal('newExpertiseModal')">&times;</span>
+                <h2 class="modal-header">Nouvelle Expertise</h2>
                 
-                <div class="card">
-                    <h3 class="card-header">Dernières factures</h3>
-                    <div class="table-container">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>N° Facture</th>
-                                    <th>Date</th>
-                                    <th>Patient</th>
-                                    <th>Montant</th>
-                                    <th>Statut</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>2025-0187</td>
-                                    <td>23/07/2025</td>
-                                    <td>BERNARD Paul</td>
-                                    <td>280€</td>
-                                    <td><span style="color: var(--warning);">En attente</span></td>
-                                </tr>
-                                <tr>
-                                    <td>2025-0186</td>
-                                    <td>22/07/2025</td>
-                                    <td>PETIT Sophie</td>
-                                    <td>280€</td>
-                                    <td><span style="color: var(--success);">Payée</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">Nom du patient</label>
+                    <input type="text" class="form-input" id="patientName" placeholder="DUPONT Jean">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Date de naissance</label>
+                    <input type="date" class="form-input" id="patientDob">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Date d'expertise</label>
+                    <input type="date" class="form-input" id="expertiseDate" value="">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Heure</label>
+                    <input type="time" class="form-input" id="expertiseTime" value="09:00">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Magistrat</label>
+                    <input type="text" class="form-input" id="magistrat" placeholder="Mme MARTIN">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">N° Procédure</label>
+                    <input type="text" class="form-input" id="procedure" placeholder="2025/1234">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Type d'expertise</label>
+                    <select class="form-select" id="expertiseType">
+                        <option value="standard">Standard</option>
+                        <option value="urgente">Urgente</option>
+                        <option value="victime">Victime</option>
+                        <option value="interprete">Avec interprète</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-textarea" id="expertiseNotes" placeholder="Notes complémentaires..."></textarea>
+                </div>
+                
+                <button class="btn btn-primary btn-block" onclick="saveExpertise()">
+                    Enregistrer l'expertise
+                </button>
+            </div>
+        </div>
+        
+        <!-- Import Modal -->
+        <div class="modal" id="importModal">
+            <div class="modal-content">
+                <span class="modal-close" onclick="closeModal('importModal')">&times;</span>
+                <h2 class="modal-header">Importer une base de données</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Format JSON uniquement</label>
+                    <input type="file" class="form-input" id="importFile" accept=".json">
+                </div>
+                
+                <button class="btn btn-primary btn-block" onclick="importDatabase()">
+                    Importer
+                </button>
+                
+                <div style="margin-top: 20px; padding: 16px; background: var(--secondary); border-radius: 8px;">
+                    <p style="font-size: 14px; color: var(--text-secondary);">
+                        <strong>Note :</strong> L'import remplacera toutes les données existantes. 
+                        Assurez-vous d'avoir une sauvegarde avant de continuer.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- Toast Container -->
-    <div class="toast" id="toast"></div>
-    
     <script>
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            const swBase64 = 'Y29uc3Qgc3dOYW1lID0gJ2NyaW1pdHJhY2stcHdhLXYxJzsKY29uc3QgcmVzb3VyY2VzVG9DYWNoZSA9IFsKICAgICcuLycsCiAgICAnLi9pbmRleC5odG1sJywKICAgICcuL21hbmlmZXN0Lmpzb24nLAogICAgJ2h0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vY2hhcnQuanNANC40LjAvZGlzdC9jaGFydC51bWQuanMnLAogICAgJ2h0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0veGxzeEAwLjE4LjUvZGlzdC94bHN4LmZ1bGwubWluLmpzJywKICAgICdodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvbnBtL2RvY3hANy4xLjIvYnVpbGQvaW5kZXgubWluLmpzJwpdOwoKc2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgZXZlbnQgPT4gewogICAgZXZlbnQud2FpdFVudGlsKAogICAgICAgIGNhY2hlcy5vcGVuKHN3TmFtZSkudGhlbihjYWNoZSA9PiB7CiAgICAgICAgICAgIHJldHVybiBjYWNoZS5hZGRBbGwocmVzb3VyY2VzVG9DYWNoZSk7CiAgICAgICAgfSkKICAgICk7Cn0pOwoKc2VsZi5hZGRFdmVudExpc3RlbmVyKCdhY3RpdmF0ZScsIGV2ZW50ID0+IHsKICAgIGV2ZW50LndhaXRVbnRpbCgKICAgICAgICBjYWNoZXMua2V5cygpLnRoZW4oa2V5cyA9PiB7CiAgICAgICAgICAgIHJldHVybiBQcm9taXNlLmFsbCgKICAgICAgICAgICAgICAgIGtleXMuZmlsdGVyKGtleSA9PiBrZXkgIT09IHN3TmFtZSkKICAgICAgICAgICAgICAgICAgICAubWFwKGtleSA9PiBjYWNoZXMuZGVsZXRlKGtleSkpCiAgICAgICAgICAgICk7CiAgICAgICAgfSkKICAgICk7Cn0pOwoKc2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGV2ZW50ID0+IHsKICAgIGV2ZW50LnJlc3BvbmRXaXRoKAogICAgICAgIGNhY2hlcy5tYXRjaChldmVudC5yZXF1ZXN0KS50aGVuKHJlc3BvbnNlID0+IHsKICAgICAgICAgICAgcmV0dXJuIHJlc3BvbnNlIHx8IGZldGNoKGV2ZW50LnJlcXVlc3QpOwogICAgICAgIH0pCiAgICApOwp9KTs=';
-            const swBlob = new Blob([atob(swBase64)], { type: 'application/javascript' });
-            const swUrl = URL.createObjectURL(swBlob);
-            navigator.serviceWorker.register(swUrl).then(reg => {
-                console.log('Service Worker registered');
-            }).catch(err => {
-                console.error('Service Worker registration failed:', err);
-            });
-        }
-        
         // App State
         const appState = {
-            currentTab: 'agenda',
+            currentSection: 'home',
             data: {
-                agenda: [],
-                waitlist: [],
-                billing: [],
-                stats: {}
+                expertises: [],
+                documents: [],
+                settings: {
+                    practitionerName: 'Dr. Gautrelet',
+                    practitionerAddress: '123 rue Example\n75001 Paris'
+                }
             }
         };
         
-        // Initialize LocalStorage
-        function initStorage() {
-            const savedData = localStorage.getItem('crimitrack-data');
+        // Initialize
+        function init() {
+            loadData();
+            updateUI();
+            setTodayDate();
+        }
+        
+        // Set today's date in forms
+        function setTodayDate() {
+            const today = new Date().toISOString().split('T')[0];
+            const dateInputs = document.querySelectorAll('input[type="date"]');
+            dateInputs.forEach(input => {
+                if (!input.value) {
+                    input.value = today;
+                }
+            });
+        }
+        
+        // Load data from localStorage
+        function loadData() {
+            const savedData = localStorage.getItem('crimitrack-mobile-data');
             if (savedData) {
-                appState.data = JSON.parse(savedData);
+                try {
+                    appState.data = JSON.parse(savedData);
+                } catch (e) {
+                    console.error('Error loading data:', e);
+                }
             }
         }
         
-        // Save to LocalStorage
+        // Save data to localStorage
         function saveData() {
-            localStorage.setItem('crimitrack-data', JSON.stringify(appState.data));
-            showToast('Données sauvegardées');
+            try {
+                localStorage.setItem('crimitrack-mobile-data', JSON.stringify(appState.data));
+            } catch (e) {
+                console.error('Error saving data:', e);
+                showToast('Erreur lors de la sauvegarde');
+            }
         }
         
-        // Tab Navigation
-        function initTabs() {
-            const tabs = document.querySelectorAll('.tab');
-            const contents = document.querySelectorAll('.tab-content');
-            
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const targetTab = tab.dataset.tab;
-                    
-                    // Update active states
-                    tabs.forEach(t => t.classList.remove('active'));
-                    contents.forEach(c => c.classList.remove('active'));
-                    
-                    tab.classList.add('active');
-                    document.getElementById(targetTab).classList.add('active');
-                    
-                    appState.currentTab = targetTab;
-                    
-                    // Lazy load content
-                    loadTabContent(targetTab);
-                });
+        // Update UI
+        function updateUI() {
+            updateRecentExpertises();
+            updateExpertisesList();
+            updateDocumentsList();
+            updateStats();
+            updateSettings();
+            updateDocumentExpertiseSelect();
+        }
+        
+        // Show section
+        function showSection(sectionId) {
+            // Update sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
             });
+            document.getElementById(sectionId).classList.add('active');
             
-            // Swipe gestures
-            let touchStartX = 0;
-            let touchEndX = 0;
-            
-            document.addEventListener('touchstart', e => {
-                touchStartX = e.changedTouches[0].screenX;
+            // Update nav
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
             });
-            
-            document.addEventListener('touchend', e => {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
-            });
-            
-            function handleSwipe() {
-                const swipeThreshold = 50;
-                const diff = touchStartX - touchEndX;
-                
-                if (Math.abs(diff) > swipeThreshold) {
-                    const tabArray = Array.from(tabs);
-                    const currentIndex = tabArray.findIndex(t => t.classList.contains('active'));
-                    
-                    if (diff > 0 && currentIndex < tabArray.length - 1) {
-                        // Swipe left - next tab
-                        tabArray[currentIndex + 1].click();
-                    } else if (diff < 0 && currentIndex > 0) {
-                        // Swipe right - previous tab
-                        tabArray[currentIndex - 1].click();
-                    }
+            // Find and activate the correct nav item
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                if (item.onclick && item.onclick.toString().includes(sectionId)) {
+                    item.classList.add('active');
                 }
-            }
-        }
-        
-        // Calendar Functions
-        function renderCalendar() {
-            const calendar = document.getElementById('calendar');
-            const daysInMonth = 31; // July 2025
-            const firstDay = 2; // Tuesday
-            
-            calendar.innerHTML = '';
-            
-            // Day headers
-            const dayHeaders = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
-            dayHeaders.forEach(day => {
-                const header = document.createElement('div');
-                header.style.textAlign = 'center';
-                header.style.fontWeight = '600';
-                header.style.padding = '8px';
-                header.textContent = day;
-                calendar.appendChild(header);
             });
             
-            // Empty cells before first day
-            for (let i = 0; i < firstDay; i++) {
-                calendar.appendChild(document.createElement('div'));
-            }
-            
-            // Days
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dayEl = document.createElement('div');
-                dayEl.className = 'calendar-day';
-                if (day === 23) dayEl.classList.add('today');
-                
-                const dateEl = document.createElement('div');
-                dateEl.className = 'date';
-                dateEl.textContent = day;
-                dayEl.appendChild(dateEl);
-                
-                // Add some sample events
-                if ([5, 12, 15, 23, 28].includes(day)) {
-                    const events = document.createElement('div');
-                    events.className = 'events';
-                    events.innerHTML = '<div class="event-dot"></div>';
-                    dayEl.appendChild(events);
-                }
-                
-                dayEl.addEventListener('click', () => selectDate(day));
-                calendar.appendChild(dayEl);
-            }
+            appState.currentSection = sectionId;
         }
         
-        function selectDate(day) {
-            showToast(`Selected: ${day} Juillet 2025`);
-            // Load appointments for this day
-            loadDayAppointments(day);
-        }
-        
-        function loadDayAppointments(day) {
-            const container = document.getElementById('todayAppointments');
-            // Simulate loading appointments
-            container.innerHTML = `
-                <div class="appointment" style="padding: 16px; border-left: 4px solid var(--primary); margin-bottom: 12px; background: var(--secondary);">
-                    <div style="font-weight: 600;">09:00 - MARTIN Jean</div>
-                    <div style="color: var(--text-secondary); font-size: 14px;">Expertise standard - Proc. 2025/1234</div>
-                </div>
-                <div class="appointment" style="padding: 16px; border-left: 4px solid var(--warning); margin-bottom: 12px; background: var(--secondary);">
-                    <div style="font-weight: 600;">14:00 - DUPONT Marie</div>
-                    <div style="color: var(--text-secondary); font-size: 14px;">Expertise urgente - Proc. 2025/5678</div>
-                </div>
-            `;
-        }
-        
-        // File Import
-        function showImportDialog() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.xlsx,.xls';
-            input.onchange = handleFileImport;
-            input.click();
-        }
-        
-        function handleFileImport(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            showToast('Importation en cours...');
-            
-            // Here you would use SheetJS to parse the Excel file
-            // For demo, we'll simulate it
-            setTimeout(() => {
-                appState.data.waitlist = [
-                    { patronyme: 'MARTIN Jean', date: '2025-07-15', magistrat: 'Mme DUPONT', procedure: '2025/1234', lieu: 'Paris', statut: 'En attente' },
-                    { patronyme: 'BERNARD Sophie', date: '2025-07-18', magistrat: 'M. PETIT', procedure: '2025/5678', lieu: 'Lyon', statut: 'Urgent' }
-                ];
-                updateWaitlistTable();
-                saveData();
-                showToast('Import réussi!');
-            }, 1000);
-        }
-        
-        function updateWaitlistTable() {
-            const tbody = document.getElementById('waitlistTable');
-            
-            if (appState.data.waitlist.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 40px;">
-                            <div class="empty-state">
-                                <div class="icon">📋</div>
-                                <div class="title">Aucun dossier en attente</div>
-                                <div class="subtitle">Importez un fichier Excel pour commencer</div>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            tbody.innerHTML = appState.data.waitlist.map(item => `
-                <tr>
-                    <td>${item.patronyme}</td>
-                    <td>${item.date}</td>
-                    <td>${item.magistrat}</td>
-                    <td>${item.procedure}</td>
-                    <td>${item.lieu}</td>
-                    <td><span style="color: ${item.statut === 'Urgent' ? 'var(--danger)' : 'var(--warning)'}">${item.statut}</span></td>
-                </tr>
-            `).join('');
-        }
-        
-        // Document Generation
-        function generateDocument() {
-            showToast('Génération en cours...');
-            // Here you would use docx.js to generate Word documents
-            setTimeout(() => {
-                showToast('Documents générés avec succès!');
-            }, 2000);
-        }
-        
-        function generateConvocations() {
-            showToast('Génération des convocations...');
-            setTimeout(() => {
-                showToast('Convocations créées!');
-            }, 1500);
-        }
-        
-        function exportBilling() {
-            showToast('Export Excel en cours...');
-            setTimeout(() => {
-                showToast('Export terminé!');
-            }, 1000);
-        }
-        
-        // Toast Notifications
+        // Show toast
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -1095,96 +821,496 @@
             }, 3000);
         }
         
-        // Load tab content (lazy loading)
-        function loadTabContent(tab) {
-            switch(tab) {
-                case 'stats':
-                    // Load Chart.js and render charts
-                    if (!window.Chart) {
-                        loadScript('https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js', renderCharts);
-                    } else {
-                        renderCharts();
-                    }
-                    break;
-                case 'waitlist':
-                    updateWaitlistTable();
-                    break;
+        // Modal functions
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        function showNewExpertiseModal() {
+            showModal('newExpertiseModal');
+        }
+        
+        function showImportModal() {
+            showModal('importModal');
+        }
+        
+        // Save expertise
+        function saveExpertise() {
+            const expertise = {
+                id: Date.now(),
+                patientName: document.getElementById('patientName').value,
+                patientDob: document.getElementById('patientDob').value,
+                expertiseDate: document.getElementById('expertiseDate').value,
+                expertiseTime: document.getElementById('expertiseTime').value,
+                magistrat: document.getElementById('magistrat').value,
+                procedure: document.getElementById('procedure').value,
+                type: document.getElementById('expertiseType').value,
+                notes: document.getElementById('expertiseNotes').value,
+                createdAt: new Date().toISOString(),
+                status: 'pending'
+            };
+            
+            if (!expertise.patientName || !expertise.expertiseDate) {
+                showToast('Veuillez remplir les champs obligatoires');
+                return;
+            }
+            
+            appState.data.expertises.push(expertise);
+            saveData();
+            updateUI();
+            closeModal('newExpertiseModal');
+            showToast('Expertise enregistrée');
+            
+            // Clear form
+            document.getElementById('patientName').value = '';
+            document.getElementById('patientDob').value = '';
+            document.getElementById('magistrat').value = '';
+            document.getElementById('procedure').value = '';
+            document.getElementById('expertiseNotes').value = '';
+        }
+        
+        // Update recent expertises
+        function updateRecentExpertises() {
+            const container = document.getElementById('recentExpertises');
+            const recent = appState.data.expertises.slice(-5).reverse();
+            
+            if (recent.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <div class="empty-state-title">Aucune expertise</div>
+                        <div class="empty-state-subtitle">Commencez par ajouter une nouvelle expertise</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = recent.map(exp => `
+                <div class="list-item" onclick="viewExpertise(${exp.id})">
+                    <div class="list-item-header">${exp.patientName}</div>
+                    <div class="list-item-details">
+                        ${new Date(exp.expertiseDate).toLocaleDateString('fr-FR')} à ${exp.expertiseTime} - 
+                        ${exp.magistrat} - ${exp.procedure}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Update expertises list
+        function updateExpertisesList() {
+            const container = document.getElementById('expertisesList');
+            
+            if (appState.data.expertises.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📁</div>
+                        <div class="empty-state-title">Aucune expertise</div>
+                        <div class="empty-state-subtitle">Base de données vide</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = appState.data.expertises.map(exp => `
+                <div class="list-item" onclick="viewExpertise(${exp.id})">
+                    <div class="list-item-header">${exp.patientName}</div>
+                    <div class="list-item-details">
+                        ${new Date(exp.expertiseDate).toLocaleDateString('fr-FR')} - 
+                        ${exp.type} - ${exp.status === 'completed' ? '✅ Terminée' : '⏳ En attente'}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Update document expertise select
+        function updateDocumentExpertiseSelect() {
+            const select = document.getElementById('docExpertise');
+            const options = ['<option value="">-- Sélectionner ou créer --</option>'];
+            options.push('<option value="new">➕ Nouvelle expertise manuelle</option>');
+            
+            appState.data.expertises.forEach(exp => {
+                options.push(`<option value="${exp.id}">${exp.patientName} - ${exp.procedure}</option>`);
+            });
+            
+            select.innerHTML = options.join('');
+        }
+        
+        // Generate document
+        function generateDocument() {
+            const docType = document.getElementById('docType').value;
+            const expertiseId = document.getElementById('docExpertise').value;
+            
+            if (!docType) {
+                showToast('Veuillez sélectionner un type de document');
+                return;
+            }
+            
+            if (!expertiseId) {
+                showToast('Veuillez sélectionner une expertise');
+                return;
+            }
+            
+            if (expertiseId === 'new') {
+                // Show new expertise modal
+                showNewExpertiseModal();
+                return;
+            }
+            
+            // Find expertise
+            const expertise = appState.data.expertises.find(e => e.id == expertiseId);
+            if (!expertise) {
+                showToast('Expertise introuvable');
+                return;
+            }
+            
+            // Create document
+            const doc = {
+                id: Date.now(),
+                type: docType,
+                expertiseId: expertiseId,
+                patientName: expertise.patientName,
+                createdAt: new Date().toISOString(),
+                content: generateDocumentContent(docType, expertise)
+            };
+            
+            appState.data.documents.push(doc);
+            saveData();
+            updateUI();
+            
+            // Download document
+            downloadDocument(doc);
+            showToast('Document généré avec succès');
+        }
+        
+        // Generate document content
+        function generateDocumentContent(type, expertise) {
+            const date = new Date(expertise.expertiseDate).toLocaleDateString('fr-FR');
+            const settings = appState.data.settings;
+            
+            switch(type) {
+                case 'convocation':
+                    return `CONVOCATION
+
+${expertise.patientName}
+
+Madame, Monsieur,
+
+Suite à la décision de ${expertise.magistrat} dans le cadre de la procédure n°${expertise.procedure}, vous êtes convoqué(e) pour une expertise psychiatrique.
+
+Date : ${date}
+Heure : ${expertise.expertiseTime}
+Lieu : ${settings.practitionerAddress}
+
+Veuillez vous munir de votre pièce d'identité et de tout document médical en votre possession.
+
+${settings.practitionerName}`;
+
+                case 'compte-rendu':
+                    return `COMPTE-RENDU D'EXPERTISE
+
+Patient : ${expertise.patientName}
+Date de naissance : ${expertise.patientDob ? new Date(expertise.patientDob).toLocaleDateString('fr-FR') : 'Non renseignée'}
+Date d'expertise : ${date}
+
+Magistrat : ${expertise.magistrat}
+Procédure : ${expertise.procedure}
+
+OBSERVATIONS :
+${expertise.notes || 'Aucune observation particulière'}
+
+CONCLUSION :
+[À compléter]
+
+Fait à Paris, le ${new Date().toLocaleDateString('fr-FR')}
+${settings.practitionerName}`;
+
+                case 'attestation':
+                    return `ATTESTATION
+
+Je soussigné, ${settings.practitionerName}, atteste avoir examiné ${expertise.patientName} le ${date} dans le cadre de la procédure ${expertise.procedure}.
+
+Fait pour servir et valoir ce que de droit.
+
+Le ${new Date().toLocaleDateString('fr-FR')}
+${settings.practitionerName}`;
+
+                case 'facture':
+                    const montant = expertise.type === 'urgente' ? 350 : 280;
+                    return `FACTURE
+
+${settings.practitionerName}
+${settings.practitionerAddress}
+
+Facture N° ${new Date().getFullYear()}-${expertise.id}
+Date : ${new Date().toLocaleDateString('fr-FR')}
+
+Patient : ${expertise.patientName}
+Procédure : ${expertise.procedure}
+
+Expertise psychiatrique (${expertise.type}) : ${montant}€
+
+Total : ${montant}€`;
+
+                default:
+                    return 'Document non défini';
             }
         }
         
-        // Load external scripts
-        function loadScript(src, callback) {
-            const script = document.createElement('script');
-            script.src = src;
-            script.onload = callback;
-            document.head.appendChild(script);
+        // Download document
+        function downloadDocument(doc) {
+            const blob = new Blob([doc.content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const date = new Date();
+            const dateStr = `${date.getDate().toString().padStart(2, '0')}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getFullYear().toString().slice(-2)}`;
+            a.download = `${doc.patientName.replace(/\s+/g, '_')}_${doc.type}_${dateStr}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
         
-        // Render charts
-        function renderCharts() {
-            // Expertise type chart
-            const ctx1 = document.createElement('canvas');
-            document.getElementById('expertiseChart').parentElement.appendChild(ctx1);
+        // Update documents list
+        function updateDocumentsList() {
+            const container = document.getElementById('recentDocuments');
+            const recent = appState.data.documents.slice(-5).reverse();
             
-            new Chart(ctx1, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Standard', 'Urgente', 'Victime', 'Avec interprète'],
-                    datasets: [{
-                        data: [120, 45, 67, 15],
-                        backgroundColor: ['#6366f1', '#f59e0b', '#10b981', '#ef4444']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
+            if (recent.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📄</div>
+                        <div class="empty-state-title">Aucun document</div>
+                        <div class="empty-state-subtitle">Les documents générés apparaîtront ici</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = recent.map(doc => `
+                <div class="list-item" onclick="downloadDocument(${JSON.stringify(doc).replace(/"/g, '&quot;')})">
+                    <div class="list-item-header">${doc.type} - ${doc.patientName}</div>
+                    <div class="list-item-details">
+                        Généré le ${new Date(doc.createdAt).toLocaleDateString('fr-FR')}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Generate quick report
+        function generateQuickReport() {
+            showSection('documents');
+            updateNavigation('documents');
+            document.getElementById('docType').value = 'compte-rendu';
+        }
+        
+        // Update navigation state
+        function updateNavigation(sectionId) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.onclick && item.onclick.toString().includes(sectionId)) {
+                    item.classList.add('active');
                 }
             });
+        }
+        
+        // Update stats
+        function updateStats() {
+            const expertises = appState.data.expertises;
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
             
-            // Monthly evolution chart
-            const ctx2 = document.createElement('canvas');
-            document.getElementById('monthlyChart').parentElement.appendChild(ctx2);
+            // Total
+            document.getElementById('totalExpertises').textContent = expertises.length;
             
-            new Chart(ctx2, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil'],
-                    datasets: [{
-                        label: 'Expertises',
-                        data: [32, 28, 35, 40, 38, 42, 45],
-                        borderColor: '#6366f1',
-                        tension: 0.3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
-                }
+            // This month
+            const monthExpertises = expertises.filter(e => {
+                const date = new Date(e.expertiseDate);
+                return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
             });
+            document.getElementById('monthExpertises').textContent = monthExpertises.length;
+            
+            // Pending
+            const pending = expertises.filter(e => e.status !== 'completed');
+            document.getElementById('pendingExpertises').textContent = pending.length;
+            
+            // Average delay (mock)
+            document.getElementById('avgDelay').textContent = '3.2j';
+            
+            // Type stats
+            updateTypeStats();
         }
         
-        // Initialize app
-        function init() {
-            initStorage();
-            initTabs();
-            renderCalendar();
-            loadDayAppointments(23);
+        // Update type stats
+        function updateTypeStats() {
+            const container = document.getElementById('typeStats');
+            const expertises = appState.data.expertises;
+            
+            if (expertises.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📊</div>
+                        <div class="empty-state-title">Pas de données</div>
+                        <div class="empty-state-subtitle">Ajoutez des expertises pour voir les statistiques</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            const types = {};
+            expertises.forEach(e => {
+                types[e.type] = (types[e.type] || 0) + 1;
+            });
+            
+            container.innerHTML = Object.entries(types).map(([type, count]) => `
+                <div style="margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>${type}</span>
+                        <span style="font-weight: 600;">${count}</span>
+                    </div>
+                    <div style="height: 8px; background: var(--secondary); border-radius: 4px; overflow: hidden;">
+                        <div style="height: 100%; background: var(--primary); width: ${(count / expertises.length * 100)}%;"></div>
+                    </div>
+                </div>
+            `).join('');
         }
         
-        // Start app when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
+        // View expertise
+        function viewExpertise(id) {
+            const expertise = appState.data.expertises.find(e => e.id === id);
+            if (!expertise) return;
+            
+            showToast(`${expertise.patientName} - ${expertise.procedure}`);
         }
         
-        // Previous/Next month navigation
-        function previousMonth() {
-            showToast('Juin 2025');
+        // Update settings
+        function updateSettings() {
+            document.getElementById('practitionerName').value = appState.data.settings.practitionerName;
+            document.getElementById('practitionerAddress').value = appState.data.settings.practitionerAddress;
         }
         
-        function nextMonth() {
-            showToast('Août 2025');
+        // Save settings
+        function saveSettings() {
+            appState.data.settings.practitionerName = document.getElementById('practitionerName').value;
+            appState.data.settings.practitionerAddress = document.getElementById('practitionerAddress').value;
+            saveData();
+            showToast('Paramètres enregistrés');
+        }
+        
+        // Import database
+        function importDatabase() {
+            const fileInput = document.getElementById('importFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showToast('Veuillez sélectionner un fichier');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    // Validate data structure
+                    if (!data.expertises || !Array.isArray(data.expertises)) {
+                        // Try to convert from CrimiTrack format
+                        if (data.patients && Array.isArray(data.patients)) {
+                            // Convert patients to expertises
+                            const expertises = data.patients.map(patient => ({
+                                id: Date.now() + Math.random(),
+                                patientName: patient.patronyme || `${patient.nom} ${patient.prenom}`,
+                                patientDob: patient.dateNaissance || '',
+                                expertiseDate: patient.dateExamen || new Date().toISOString().split('T')[0],
+                                expertiseTime: patient.heureExamen || '09:00',
+                                magistrat: patient.magistrat || '',
+                                procedure: patient.numeroInstruction || patient.procedure || '',
+                                type: 'standard',
+                                notes: patient.notes || '',
+                                createdAt: new Date().toISOString(),
+                                status: 'pending'
+                            }));
+                            
+                            appState.data.expertises = expertises;
+                            saveData();
+                            updateUI();
+                            closeModal('importModal');
+                            showToast(`${expertises.length} expertises importées`);
+                            return;
+                        }
+                        throw new Error('Format de fichier invalide');
+                    }
+                    
+                    // Direct import if correct format
+                    appState.data = data;
+                    saveData();
+                    updateUI();
+                    closeModal('importModal');
+                    showToast('Base de données importée');
+                } catch (error) {
+                    console.error('Import error:', error);
+                    showToast('Erreur lors de l\'import du fichier');
+                }
+            };
+            reader.readAsText(file);
+        }
+        
+        // Export data
+        function exportData() {
+            const dataStr = JSON.stringify(appState.data, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `crimitrack_export_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('Données exportées');
+        }
+        
+        // Clear data
+        function clearData() {
+            if (confirm('Êtes-vous sûr de vouloir effacer toutes les données ?')) {
+                appState.data = {
+                    expertises: [],
+                    documents: [],
+                    settings: appState.data.settings
+                };
+                saveData();
+                updateUI();
+                showToast('Données effacées');
+            }
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', init);
+        
+        // Handle back button
+        window.addEventListener('popstate', (e) => {
+            e.preventDefault();
+        });
+        
+        // Register service worker for offline capability
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('data:application/javascript,' + encodeURIComponent(`
+                const CACHE_NAME = 'crimitrack-mobile-v1';
+                self.addEventListener('install', e => {
+                    self.skipWaiting();
+                });
+                self.addEventListener('activate', e => {
+                    clients.claim();
+                });
+                self.addEventListener('fetch', e => {
+                    e.respondWith(fetch(e.request).catch(() => new Response('Offline')));
+                });
+            `)).catch(err => console.log('SW registration failed'));
         }
     </script>
 </body>
