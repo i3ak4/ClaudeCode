@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
     <title>CrimiTrack Mobile</title>
+    <link rel="icon" href="data:,">
+    
+    <!-- SheetJS Library for Excel import -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <!-- Scripts pour le publipostage -->
+    <script src="https://cdn.jsdelivr.net/npm/pizzip@3.1.4/dist/pizzip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docxtemplater@3.37.12/build/docxtemplater.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     
     <!-- Apple PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -63,15 +71,37 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .header-text {
+            flex: 1;
+        }
+        
         .header h1 {
             font-size: 24px;
             font-weight: 600;
+            margin: 0;
         }
         
         .header-subtitle {
             font-size: 14px;
             opacity: 0.9;
-            margin-top: 4px;
+            margin-top: 2px;
         }
         
         /* Main Content */
@@ -300,6 +330,91 @@
             font-size: 14px;
         }
         
+        /* Calendar */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            margin-top: 16px;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .calendar-month {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .calendar-nav button {
+            padding: 8px 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 600;
+            padding: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary);
+            border-radius: 8px;
+            padding: 4px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .calendar-day.today {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .calendar-day.has-expertise {
+            background: #dbeafe;
+            border: 2px solid var(--primary);
+        }
+        
+        .calendar-day.other-month {
+            opacity: 0.3;
+        }
+        
+        .calendar-day-number {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .calendar-day-count {
+            font-size: 10px;
+            margin-top: 2px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .calendar-day.today .calendar-day-count {
+            color: white;
+        }
+        
         /* Toast */
         .toast {
             position: fixed;
@@ -348,6 +463,14 @@
             width: 100%;
             max-height: 80vh;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #dayExpertisesContent {
+            max-height: 60vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         .modal-header {
@@ -449,8 +572,13 @@
     <div class="app-container">
         <!-- Header -->
         <header class="header">
-            <h1>CrimiTrack Mobile</h1>
-            <div class="header-subtitle">Version simplifiée pour iPad</div>
+            <div class="header-content">
+                <div class="header-logo">⚖️</div>
+                <div class="header-text">
+                    <h1>CrimiTrack Mobile</h1>
+                    <div class="header-subtitle">Version simplifiée</div>
+                </div>
+            </div>
         </header>
         
         <!-- Main Content -->
@@ -462,17 +590,9 @@
                         <div class="quick-action-icon">➕</div>
                         <div class="quick-action-label">Nouvelle Expertise</div>
                     </div>
-                    <div class="quick-action" onclick="showImportModal()">
+                    <div class="quick-action" onclick="showModal('importModal')">
                         <div class="quick-action-icon">📥</div>
                         <div class="quick-action-label">Importer Base</div>
-                    </div>
-                    <div class="quick-action" onclick="generateQuickReport()">
-                        <div class="quick-action-icon">📄</div>
-                        <div class="quick-action-label">Compte-rendu</div>
-                    </div>
-                    <div class="quick-action" onclick="showSection('stats'); updateNavigation('stats')">
-                        <div class="quick-action-icon">📊</div>
-                        <div class="quick-action-label">Statistiques</div>
                     </div>
                 </div>
                 
@@ -486,6 +606,18 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="card" style="margin-top: 16px;">
+                    <h2 class="card-header">Données</h2>
+                    <div style="display: flex; gap: 12px;">
+                        <button class="btn btn-secondary" style="flex: 1;" onclick="exportData()">
+                            📤 Exporter
+                        </button>
+                        <button class="btn btn-danger" style="flex: 1;" onclick="clearData()">
+                            🗑️ Effacer tout
+                        </button>
+                    </div>
+                </div>
             </section>
             
             <!-- Expertises Section -->
@@ -495,6 +627,9 @@
                     <button class="btn btn-primary btn-block" onclick="showNewExpertiseModal()">
                         Ajouter une expertise
                     </button>
+                    <div class="form-group" style="margin-top: 16px;">
+                        <input type="text" class="form-input" id="searchExpertises" placeholder="Rechercher par nom..." onkeyup="searchExpertises()">
+                    </div>
                     <div id="expertisesList" style="margin-top: 20px;">
                         <div class="empty-state">
                             <div class="empty-state-icon">📁</div>
@@ -505,20 +640,15 @@
                 </div>
             </section>
             
-            <!-- Documents Section -->
+            <!-- Publipostage Section -->
             <section class="section" id="documents">
                 <div class="card">
-                    <h2 class="card-header">Générer un document</h2>
+                    <h2 class="card-header">Publipostage</h2>
                     
                     <div class="form-group">
-                        <label class="form-label">Type de document</label>
-                        <select class="form-select" id="docType">
-                            <option value="">-- Sélectionner --</option>
-                            <option value="convocation">Convocation standard</option>
-                            <option value="compte-rendu">Compte-rendu d'expertise</option>
-                            <option value="attestation">Attestation</option>
-                            <option value="facture">Facture</option>
-                        </select>
+                        <label class="form-label">Modèle</label>
+                        <input type="file" class="form-input" id="templateFile" accept=".docx,.doc" onchange="handleTemplateSelect()">
+                        <small class="form-help">Sélectionnez un modèle Word (.docx)</small>
                     </div>
                     
                     <div class="form-group">
@@ -529,7 +659,7 @@
                         </select>
                     </div>
                     
-                    <button class="btn btn-success btn-block" onclick="generateDocument()">
+                    <button class="btn btn-success btn-block" onclick="generateDocument()" id="generateBtn" disabled>
                         Générer le document
                     </button>
                 </div>
@@ -546,68 +676,17 @@
                 </div>
             </section>
             
-            <!-- Stats Section -->
-            <section class="section" id="stats">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalExpertises">0</div>
-                        <div class="stat-label">Expertises totales</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="monthExpertises">0</div>
-                        <div class="stat-label">Ce mois-ci</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="pendingExpertises">0</div>
-                        <div class="stat-label">En attente</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="avgDelay">0j</div>
-                        <div class="stat-label">Délai moyen</div>
-                    </div>
-                </div>
-                
+            <!-- Calendar Section -->
+            <section class="section" id="calendar">
                 <div class="card">
-                    <h2 class="card-header">Répartition par type</h2>
-                    <div id="typeStats" style="margin-top: 16px;">
-                        <div class="empty-state">
-                            <div class="empty-state-icon">📊</div>
-                            <div class="empty-state-title">Pas de données</div>
-                            <div class="empty-state-subtitle">Ajoutez des expertises pour voir les statistiques</div>
-                        </div>
+                    <h2 class="card-header">Calendrier des expertises</h2>
+                    <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                        <input type="date" class="form-input" id="calendarSearch" onchange="goToDate()" style="flex: 1;">
+                        <button class="btn btn-primary" onclick="goToToday()">Aujourd'hui</button>
                     </div>
-                </div>
-            </section>
-            
-            <!-- Settings Section -->
-            <section class="section" id="settings">
-                <div class="card">
-                    <h2 class="card-header">Paramètres</h2>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Nom du praticien</label>
-                        <input type="text" class="form-input" id="practitionerName" value="Dr. Gautrelet">
+                    <div id="calendarContainer">
+                        <!-- Calendar will be rendered here -->
                     </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Adresse du cabinet</label>
-                        <textarea class="form-textarea" id="practitionerAddress">123 rue Example
-75001 Paris</textarea>
-                    </div>
-                    
-                    <button class="btn btn-primary btn-block" onclick="saveSettings()">
-                        Enregistrer les paramètres
-                    </button>
-                </div>
-                
-                <div class="card">
-                    <h2 class="card-header">Données</h2>
-                    <button class="btn btn-secondary btn-block" onclick="exportData()">
-                        Exporter les données
-                    </button>
-                    <button class="btn btn-danger btn-block" onclick="clearData()" style="margin-top: 12px;">
-                        Effacer toutes les données
-                    </button>
                 </div>
             </section>
         </main>
@@ -625,15 +704,11 @@
                 </div>
                 <div class="nav-item" onclick="showSection('documents')">
                     <div class="nav-icon">📄</div>
-                    <div class="nav-label">Documents</div>
+                    <div class="nav-label">Publipostage</div>
                 </div>
-                <div class="nav-item" onclick="showSection('stats')">
-                    <div class="nav-icon">📊</div>
-                    <div class="nav-label">Stats</div>
-                </div>
-                <div class="nav-item" onclick="showSection('settings')">
-                    <div class="nav-icon">⚙️</div>
-                    <div class="nav-label">Réglages</div>
+                <div class="nav-item" onclick="showSection('calendar')">
+                    <div class="nav-icon">📅</div>
+                    <div class="nav-label">Calendrier</div>
                 </div>
             </div>
         </nav>
@@ -648,53 +723,115 @@
                 <h2 class="modal-header">Nouvelle Expertise</h2>
                 
                 <div class="form-group">
-                    <label class="form-label">Nom du patient</label>
-                    <input type="text" class="form-input" id="patientName" placeholder="DUPONT Jean">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Date de naissance</label>
-                    <input type="date" class="form-input" id="patientDob">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Date d'expertise</label>
+                    <label class="form-label">Date</label>
                     <input type="date" class="form-input" id="expertiseDate" value="">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">Heure</label>
-                    <input type="time" class="form-input" id="expertiseTime" value="09:00">
+                    <label class="form-label">Lieu</label>
+                    <input type="text" class="form-input" id="expertiseLieu" placeholder="Tribunal, Cabinet médical...">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">Magistrat</label>
+                    <label class="form-label">OPJ/Greffier</label>
+                    <input type="text" class="form-input" id="opjGreffier" placeholder="Nom de l'OPJ ou du greffier">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Substitut</label>
                     <input type="text" class="form-input" id="magistrat" placeholder="Mme MARTIN">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">N° Procédure</label>
+                    <label class="form-label">TJ</label>
+                    <input type="text" class="form-input" id="tj" placeholder="Tribunal Judiciaire">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Patronyme</label>
+                    <input type="text" class="form-input" id="patientName" placeholder="DUPONT Jean">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">DDN (Date de naissance)</label>
+                    <input type="date" class="form-input" id="patientDob" onchange="calculateAge()">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Age</label>
+                    <input type="number" class="form-input" id="age" placeholder="25">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Profession</label>
+                    <input type="text" class="form-input" id="profession" placeholder="Profession">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Domicile</label>
+                    <input type="text" class="form-input" id="domicile" placeholder="Adresse du domicile">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Procédure</label>
                     <input type="text" class="form-input" id="procedure" placeholder="2025/1234">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">Type d'expertise</label>
-                    <select class="form-select" id="expertiseType">
-                        <option value="standard">Standard</option>
-                        <option value="urgente">Urgente</option>
-                        <option value="victime">Victime</option>
-                        <option value="interprete">Avec interprète</option>
-                    </select>
+                    <label class="form-label">Procédure_bis</label>
+                    <input type="text" class="form-input" id="procedureBis" placeholder="Procédure secondaire">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">Notes</label>
-                    <textarea class="form-textarea" id="expertiseNotes" placeholder="Notes complémentaires..."></textarea>
+                    <label class="form-label">Chefs</label>
+                    <textarea class="form-textarea" id="chefs" placeholder="Chefs d'inculpation..." rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Date_OCE</label>
+                    <input type="date" class="form-input" id="dateOCE">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Limite_OCE</label>
+                    <input type="date" class="form-input" id="limiteOCE">
                 </div>
                 
                 <button class="btn btn-primary btn-block" onclick="saveExpertise()">
                     Enregistrer l'expertise
                 </button>
+            </div>
+        </div>
+        
+        <!-- Expertise Detail Modal -->
+        <div class="modal" id="expertiseDetailModal">
+            <div class="modal-content">
+                <span class="modal-close" onclick="closeModal('expertiseDetailModal')">&times;</span>
+                <h2 class="modal-header">Détails de l'expertise</h2>
+                
+                <div id="expertiseDetailContent">
+                    <!-- Details will be populated here -->
+                </div>
+                
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button class="btn btn-primary" style="flex: 1;" onclick="editExpertise()">
+                        Modifier
+                    </button>
+                    <button class="btn btn-danger" style="flex: 1;" onclick="deleteExpertise()">
+                        Supprimer
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day Expertises Modal -->
+        <div class="modal" id="dayExpertisesModal">
+            <div class="modal-content">
+                <span class="modal-close" onclick="closeModal('dayExpertisesModal')">&times;</span>
+                <h2 class="modal-header" id="dayExpertisesTitle">Expertises du jour</h2>
+                <div id="dayExpertisesContent" style="flex: 1; overflow-y: auto;">
+                    <!-- Day expertises will be listed here -->
+                </div>
             </div>
         </div>
         
@@ -705,8 +842,8 @@
                 <h2 class="modal-header">Importer une base de données</h2>
                 
                 <div class="form-group">
-                    <label class="form-label">Format JSON uniquement</label>
-                    <input type="file" class="form-input" id="importFile" accept=".json">
+                    <label class="form-label">Format JSON ou Excel (.xlsx)</label>
+                    <input type="file" class="form-input" id="importFile" accept=".json,.xlsx">
                 </div>
                 
                 <button class="btn btn-primary btn-block" onclick="importDatabase()">
@@ -714,9 +851,12 @@
                 </button>
                 
                 <div style="margin-top: 20px; padding: 16px; background: var(--secondary); border-radius: 8px;">
-                    <p style="font-size: 14px; color: var(--text-secondary);">
+                    <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">
                         <strong>Note :</strong> L'import remplacera toutes les données existantes. 
                         Assurez-vous d'avoir une sauvegarde avant de continuer.
+                    </p>
+                    <p style="font-size: 12px; color: var(--text-secondary);">
+                        <strong>Format Excel :</strong> Date, Lieu, OPJ/Greffier, Substitut, TJ, Patronyme, DDN, Age, Profession, Domicile, Procédure, Procédure_bis, Chefs, Date_OCE, Limite_OCE
                     </p>
                 </div>
             </div>
@@ -782,8 +922,7 @@
             updateRecentExpertises();
             updateExpertisesList();
             updateDocumentsList();
-            updateStats();
-            updateSettings();
+            updateCalendar();
             updateDocumentExpertiseSelect();
         }
         
@@ -840,22 +979,46 @@
         
         // Save expertise
         function saveExpertise() {
+            // Collect all form data
+            const opjGreffier = document.getElementById('opjGreffier').value;
+            const age = document.getElementById('age').value;
+            const profession = document.getElementById('profession').value;
+            const domicile = document.getElementById('domicile').value;
+            const procedureBis = document.getElementById('procedureBis').value;
+            const chefs = document.getElementById('chefs').value;
+            const dateOCE = document.getElementById('dateOCE').value;
+            const limiteOCE = document.getElementById('limiteOCE').value;
+            const tj = document.getElementById('tj').value;
+            
+            // Build notes from additional fields
+            let notes = [];
+            if (opjGreffier) notes.push(`OPJ/Greffier: ${opjGreffier}`);
+            if (age) notes.push(`Age: ${age}`);
+            if (profession) notes.push(`Profession: ${profession}`);
+            if (domicile) notes.push(`Domicile: ${domicile}`);
+            if (procedureBis) notes.push(`Procédure_bis: ${procedureBis}`);
+            if (chefs) notes.push(`Chefs: ${chefs}`);
+            if (dateOCE) notes.push(`Date_OCE: ${dateOCE}`);
+            if (limiteOCE) notes.push(`Limite_OCE: ${limiteOCE}`);
+            
             const expertise = {
                 id: Date.now(),
                 patientName: document.getElementById('patientName').value,
                 patientDob: document.getElementById('patientDob').value,
                 expertiseDate: document.getElementById('expertiseDate').value,
-                expertiseTime: document.getElementById('expertiseTime').value,
+                expertiseTime: '09:00',
+                lieu: document.getElementById('expertiseLieu').value,
                 magistrat: document.getElementById('magistrat').value,
                 procedure: document.getElementById('procedure').value,
-                type: document.getElementById('expertiseType').value,
-                notes: document.getElementById('expertiseNotes').value,
+                type: 'normale',
+                notes: notes.join('\n'),
+                TJ: tj,
                 createdAt: new Date().toISOString(),
-                status: 'pending'
+                status: 'completed'
             };
             
-            if (!expertise.patientName || !expertise.expertiseDate) {
-                showToast('Veuillez remplir les champs obligatoires');
+            if (!expertise.patientName) {
+                showToast('Veuillez remplir le patronyme');
                 return;
             }
             
@@ -868,15 +1031,28 @@
             // Clear form
             document.getElementById('patientName').value = '';
             document.getElementById('patientDob').value = '';
+            document.getElementById('expertiseLieu').value = '';
             document.getElementById('magistrat').value = '';
             document.getElementById('procedure').value = '';
-            document.getElementById('expertiseNotes').value = '';
+            document.getElementById('opjGreffier').value = '';
+            document.getElementById('age').value = '';
+            document.getElementById('profession').value = '';
+            document.getElementById('domicile').value = '';
+            document.getElementById('procedureBis').value = '';
+            document.getElementById('chefs').value = '';
+            document.getElementById('dateOCE').value = '';
+            document.getElementById('limiteOCE').value = '';
+            document.getElementById('tj').value = '';
         }
         
         // Update recent expertises
         function updateRecentExpertises() {
             const container = document.getElementById('recentExpertises');
-            const recent = appState.data.expertises.slice(-5).reverse();
+            // Only show expertises with dates
+            const recent = appState.data.expertises
+                .filter(exp => exp.expertiseDate)
+                .slice(-5)
+                .reverse();
             
             if (recent.length === 0) {
                 container.innerHTML = `
@@ -893,15 +1069,16 @@
                 <div class="list-item" onclick="viewExpertise(${exp.id})">
                     <div class="list-item-header">${exp.patientName}</div>
                     <div class="list-item-details">
-                        ${new Date(exp.expertiseDate).toLocaleDateString('fr-FR')} à ${exp.expertiseTime} - 
-                        ${exp.magistrat} - ${exp.procedure}
+                        ${exp.expertiseDate ? new Date(exp.expertiseDate).toLocaleDateString('fr-FR') : 'Sans date'}
+                        ${exp.magistrat ? ' - ' + exp.magistrat : ''}
+                        ${exp.procedure ? ' - ' + exp.procedure : ''}
                     </div>
                 </div>
             `).join('');
         }
         
         // Update expertises list
-        function updateExpertisesList() {
+        function updateExpertisesList(searchTerm = '') {
             const container = document.getElementById('expertisesList');
             
             if (appState.data.expertises.length === 0) {
@@ -915,12 +1092,45 @@
                 return;
             }
             
-            container.innerHTML = appState.data.expertises.map(exp => `
+            // Filter expertises based on search term
+            let filteredExpertises = appState.data.expertises;
+            if (searchTerm) {
+                filteredExpertises = appState.data.expertises.filter(exp => 
+                    (exp.patientName || '').toLowerCase().includes(searchTerm) ||
+                    (exp.magistrat || '').toLowerCase().includes(searchTerm) ||
+                    (exp.procedure || '').toLowerCase().includes(searchTerm) ||
+                    (exp.lieu || '').toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Sort by date (most recent first), putting null dates at the end
+            filteredExpertises.sort((a, b) => {
+                if (!a.expertiseDate && !b.expertiseDate) return 0;
+                if (!a.expertiseDate) return 1;
+                if (!b.expertiseDate) return -1;
+                const dateA = new Date(a.expertiseDate + ' ' + a.expertiseTime);
+                const dateB = new Date(b.expertiseDate + ' ' + b.expertiseTime);
+                return dateB - dateA;
+            });
+            
+            if (filteredExpertises.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔍</div>
+                        <div class="empty-state-title">Aucun résultat</div>
+                        <div class="empty-state-subtitle">Essayez avec d'autres termes</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = filteredExpertises.map(exp => `
                 <div class="list-item" onclick="viewExpertise(${exp.id})">
                     <div class="list-item-header">${exp.patientName}</div>
                     <div class="list-item-details">
-                        ${new Date(exp.expertiseDate).toLocaleDateString('fr-FR')} - 
-                        ${exp.type} - ${exp.status === 'completed' ? '✅ Terminée' : '⏳ En attente'}
+                        ${exp.expertiseDate ? new Date(exp.expertiseDate).toLocaleDateString('fr-FR') : 'En attente'} - 
+                        ${exp.lieu ? exp.lieu : 'Non précisé'}
+                        ${exp.magistrat ? ' - ' + exp.magistrat : ''}
                     </div>
                 </div>
             `).join('');
@@ -929,34 +1139,63 @@
         // Update document expertise select
         function updateDocumentExpertiseSelect() {
             const select = document.getElementById('docExpertise');
-            const options = ['<option value="">-- Sélectionner ou créer --</option>'];
-            options.push('<option value="new">➕ Nouvelle expertise manuelle</option>');
+            const options = ['<option value="">-- Sélectionner une expertise --</option>'];
             
-            appState.data.expertises.forEach(exp => {
-                options.push(`<option value="${exp.id}">${exp.patientName} - ${exp.procedure}</option>`);
+            // Sort expertises by date (most recent first)
+            const sortedExpertises = [...appState.data.expertises]
+                .filter(exp => exp.expertiseDate)
+                .sort((a, b) => {
+                    const dateA = new Date(a.expertiseDate);
+                    const dateB = new Date(b.expertiseDate);
+                    return dateB - dateA;
+                });
+            
+            sortedExpertises.forEach(exp => {
+                const date = new Date(exp.expertiseDate).toLocaleDateString('fr-FR');
+                const label = `${exp.patientName} - ${date} - ${exp.procedure || 'Sans procédure'}`;
+                options.push(`<option value="${exp.id}">${label}</option>`);
             });
             
             select.innerHTML = options.join('');
         }
         
+        // Global variable to store the selected template
+        let selectedTemplate = null;
+        
+        // Handle template file selection
+        function handleTemplateSelect() {
+            const fileInput = document.getElementById('templateFile');
+            const file = fileInput.files[0];
+            const generateBtn = document.getElementById('generateBtn');
+            
+            if (file && file.name.endsWith('.docx')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedTemplate = e.target.result;
+                    generateBtn.disabled = false;
+                    showToast('Modèle chargé avec succès');
+                };
+                reader.readAsArrayBuffer(file);
+            } else {
+                selectedTemplate = null;
+                generateBtn.disabled = true;
+                if (file) {
+                    showToast('Veuillez sélectionner un fichier .docx');
+                }
+            }
+        }
+        
         // Generate document
         function generateDocument() {
-            const docType = document.getElementById('docType').value;
             const expertiseId = document.getElementById('docExpertise').value;
             
-            if (!docType) {
-                showToast('Veuillez sélectionner un type de document');
+            if (!selectedTemplate) {
+                showToast('Veuillez sélectionner un modèle');
                 return;
             }
             
             if (!expertiseId) {
                 showToast('Veuillez sélectionner une expertise');
-                return;
-            }
-            
-            if (expertiseId === 'new') {
-                // Show new expertise modal
-                showNewExpertiseModal();
                 return;
             }
             
@@ -967,113 +1206,202 @@
                 return;
             }
             
-            // Create document
-            const doc = {
-                id: Date.now(),
-                type: docType,
-                expertiseId: expertiseId,
-                patientName: expertise.patientName,
-                createdAt: new Date().toISOString(),
-                content: generateDocumentContent(docType, expertise)
-            };
-            
-            appState.data.documents.push(doc);
-            saveData();
-            updateUI();
-            
-            // Download document
-            downloadDocument(doc);
-            showToast('Document généré avec succès');
-        }
-        
-        // Generate document content
-        function generateDocumentContent(type, expertise) {
-            const date = new Date(expertise.expertiseDate).toLocaleDateString('fr-FR');
-            const settings = appState.data.settings;
-            
-            switch(type) {
-                case 'convocation':
-                    return `CONVOCATION
-
-${expertise.patientName}
-
-Madame, Monsieur,
-
-Suite à la décision de ${expertise.magistrat} dans le cadre de la procédure n°${expertise.procedure}, vous êtes convoqué(e) pour une expertise psychiatrique.
-
-Date : ${date}
-Heure : ${expertise.expertiseTime}
-Lieu : ${settings.practitionerAddress}
-
-Veuillez vous munir de votre pièce d'identité et de tout document médical en votre possession.
-
-${settings.practitionerName}`;
-
-                case 'compte-rendu':
-                    return `COMPTE-RENDU D'EXPERTISE
-
-Patient : ${expertise.patientName}
-Date de naissance : ${expertise.patientDob ? new Date(expertise.patientDob).toLocaleDateString('fr-FR') : 'Non renseignée'}
-Date d'expertise : ${date}
-
-Magistrat : ${expertise.magistrat}
-Procédure : ${expertise.procedure}
-
-OBSERVATIONS :
-${expertise.notes || 'Aucune observation particulière'}
-
-CONCLUSION :
-[À compléter]
-
-Fait à Paris, le ${new Date().toLocaleDateString('fr-FR')}
-${settings.practitionerName}`;
-
-                case 'attestation':
-                    return `ATTESTATION
-
-Je soussigné, ${settings.practitionerName}, atteste avoir examiné ${expertise.patientName} le ${date} dans le cadre de la procédure ${expertise.procedure}.
-
-Fait pour servir et valoir ce que de droit.
-
-Le ${new Date().toLocaleDateString('fr-FR')}
-${settings.practitionerName}`;
-
-                case 'facture':
-                    const montant = expertise.type === 'urgente' ? 350 : 280;
-                    return `FACTURE
-
-${settings.practitionerName}
-${settings.practitionerAddress}
-
-Facture N° ${new Date().getFullYear()}-${expertise.id}
-Date : ${new Date().toLocaleDateString('fr-FR')}
-
-Patient : ${expertise.patientName}
-Procédure : ${expertise.procedure}
-
-Expertise psychiatrique (${expertise.type}) : ${montant}€
-
-Total : ${montant}€`;
-
-                default:
-                    return 'Document non défini';
+            try {
+                // Vérifier que les bibliothèques sont chargées
+                if (typeof PizZip === 'undefined' || typeof docxtemplater === 'undefined') {
+                    showToast('Les bibliothèques de publipostage ne sont pas chargées');
+                    return;
+                }
+                
+                // Préparer les données pour le publipostage
+                const templateData = prepareTemplateData(expertise);
+                
+                // Debug: afficher les données dans la console
+                console.log('Données du publipostage:', templateData);
+                
+                // Créer le zip et convertir les balises
+                const zip = new PizZip(selectedTemplate);
+                
+                // Convertir les balises Word «» en balises docxtemplater {}
+                try {
+                    // Récupérer le contenu XML du document
+                    const files = zip.files;
+                    for (let fileName in files) {
+                        if (fileName.endsWith('.xml') && !fileName.startsWith('_')) {
+                            let content = files[fileName].asText();
+                            // Chercher les balises au format «NomChamp»
+                            const matches = content.match(/«([^»]+)»/g);
+                            if (matches) {
+                                console.log('Balises Word détectées:', matches);
+                                // Remplacer «NomChamp» par {NomChamp}
+                                matches.forEach(match => {
+                                    const fieldName = match.replace(/«|»/g, '');
+                                    content = content.replace(new RegExp(match, 'g'), `{${fieldName}}`);
+                                });
+                                // Mettre à jour le contenu dans le zip
+                                zip.file(fileName, content);
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.log('Erreur lors de la conversion des balises:', e);
+                }
+                
+                // Créer le document avec docxtemplater
+                const doc = new docxtemplater();
+                doc.loadZip(zip);
+                doc.setOptions({
+                    paragraphLoop: true,
+                    linebreaks: true,
+                    nullGetter: function() { 
+                        return ''; 
+                    }
+                });
+                
+                // Définir les données
+                doc.setData(templateData);
+                
+                // Rendre le document
+                try {
+                    doc.render();
+                } catch (error) {
+                    console.error('Erreur lors du rendu:', error);
+                    throw error;
+                }
+                
+                // Générer le document
+                const blob = doc.getZip().generate({
+                    type: 'blob',
+                    mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                });
+                
+                // Nom du fichier
+                const fileName = `${expertise.patientName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.docx`;
+                
+                // Sauvegarder dans l'historique
+                const docRecord = {
+                    id: Date.now(),
+                    fileName: fileName,
+                    expertiseId: expertiseId,
+                    patientName: expertise.patientName,
+                    createdAt: new Date().toISOString()
+                };
+                
+                appState.data.documents.push(docRecord);
+                saveData();
+                updateUI();
+                
+                // Télécharger le document
+                if (typeof saveAs !== 'undefined') {
+                    saveAs(blob, fileName);
+                } else {
+                    // Fallback si FileSaver n'est pas chargé
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }
+                showToast('Document généré avec succès');
+                
+            } catch (error) {
+                console.error('Erreur lors de la génération du document:', error);
+                showToast('Erreur lors de la génération du document');
             }
         }
         
-        // Download document
-        function downloadDocument(doc) {
-            const blob = new Blob([doc.content], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            const date = new Date();
-            const dateStr = `${date.getDate().toString().padStart(2, '0')}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getFullYear().toString().slice(-2)}`;
-            a.download = `${doc.patientName.replace(/\s+/g, '_')}_${doc.type}_${dateStr}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+        // Prepare template data for docxtemplater
+        function prepareTemplateData(expertise) {
+            const settings = appState.data.settings;
+            
+            // Parse notes to extract fields
+            const extractField = (fieldName, notes) => {
+                if (!notes) return '';
+                const regex = new RegExp(`${fieldName}:\\s*([^\\n]+)`);
+                const match = notes.match(regex);
+                return match ? match[1] : '';
+            };
+            
+            const notes = expertise.notes || '';
+            
+            // Calculate age
+            let age = extractField('Age', notes);
+            if (!age && expertise.patientDob) {
+                const birthDate = new Date(expertise.patientDob);
+                const today = new Date();
+                age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+            }
+            
+            // Format dates
+            const formatDate = (dateStr) => {
+                if (!dateStr) return '';
+                return new Date(dateStr).toLocaleDateString('fr-FR');
+            };
+            
+            // Build template data matching CrimiTrack's structure
+            const data = {
+                // Champs principaux (noms exacts de CrimiTrack)
+                Date: formatDate(expertise.expertiseDate),
+                Lieu: expertise.lieu || '',
+                OPJGreffier: extractField('OPJ/Greffier', notes), // Sans espace ni slash
+                'OPJ/Greffier': extractField('OPJ/Greffier', notes),
+                OPJ_Greffier: extractField('OPJ/Greffier', notes),
+                Substitut: expertise.magistrat || '',
+                TJ: expertise.TJ || '',
+                Patronyme: expertise.patientName || '',
+                DDN: formatDate(expertise.patientDob),
+                Age: age ? age.toString() : '',
+                Profession: extractField('Profession', notes),
+                Domicile: extractField('Domicile', notes),
+                Procédure: expertise.procedure || '',
+                Procedure: expertise.procedure || '', // Sans accent
+                ProcédureBis: extractField('Procédure_bis', notes), // Sans underscore
+                Procédure_bis: extractField('Procédure_bis', notes),
+                Procedure_bis: extractField('Procédure_bis', notes),
+                Chefs: extractField('Chefs', notes),
+                DateOCE: formatDate(extractField('Date_OCE', notes)), // Sans underscore
+                Date_OCE: formatDate(extractField('Date_OCE', notes)),
+                LimiteOCE: formatDate(extractField('Limite_OCE', notes)), // Sans underscore
+                Limite_OCE: formatDate(extractField('Limite_OCE', notes)),
+                
+                // Additional fields for compatibility
+                Nom: expertise.patientName || '',
+                Prénom: '',
+                Prenom: '', // Sans accent
+                Date_examen: formatDate(expertise.expertiseDate),
+                DateExamen: formatDate(expertise.expertiseDate), // CamelCase
+                Heure: expertise.expertiseTime || '09:00',
+                HeureExamen: expertise.expertiseTime || '09:00',
+                
+                // Magistrat variations
+                Magistrat: expertise.magistrat || '',
+                
+                // Settings
+                Praticien: settings.practitionerName || '',
+                Adresse_praticien: settings.practitionerAddress || '',
+                AdressePraticien: settings.practitionerAddress || '',
+                
+                // Current date
+                Date_aujourdhui: new Date().toLocaleDateString('fr-FR'),
+                DateAujourdhui: new Date().toLocaleDateString('fr-FR'),
+                DateJour: new Date().toLocaleDateString('fr-FR')
+            };
+            
+            // Ajouter des variantes en minuscules
+            Object.keys(data).forEach(key => {
+                data[key.toLowerCase()] = data[key];
+            });
+            
+            return data;
         }
+        
         
         // Update documents list
         function updateDocumentsList() {
@@ -1092,21 +1420,16 @@ Total : ${montant}€`;
             }
             
             container.innerHTML = recent.map(doc => `
-                <div class="list-item" onclick="downloadDocument(${JSON.stringify(doc).replace(/"/g, '&quot;')})">
-                    <div class="list-item-header">${doc.type} - ${doc.patientName}</div>
+                <div class="list-item">
+                    <div class="list-item-header">${doc.patientName}</div>
                     <div class="list-item-details">
-                        Généré le ${new Date(doc.createdAt).toLocaleDateString('fr-FR')}
+                        ${doc.fileName} - Généré le ${new Date(doc.createdAt).toLocaleDateString('fr-FR')}
                     </div>
                 </div>
             `).join('');
         }
         
         // Generate quick report
-        function generateQuickReport() {
-            showSection('documents');
-            updateNavigation('documents');
-            document.getElementById('docType').value = 'compte-rendu';
-        }
         
         // Update navigation state
         function updateNavigation(sectionId) {
@@ -1119,87 +1442,256 @@ Total : ${montant}€`;
         }
         
         // Update stats
-        function updateStats() {
-            const expertises = appState.data.expertises;
-            const now = new Date();
-            const currentMonth = now.getMonth();
-            const currentYear = now.getFullYear();
-            
-            // Total
-            document.getElementById('totalExpertises').textContent = expertises.length;
-            
-            // This month
-            const monthExpertises = expertises.filter(e => {
-                const date = new Date(e.expertiseDate);
-                return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
-            });
-            document.getElementById('monthExpertises').textContent = monthExpertises.length;
-            
-            // Pending
-            const pending = expertises.filter(e => e.status !== 'completed');
-            document.getElementById('pendingExpertises').textContent = pending.length;
-            
-            // Average delay (mock)
-            document.getElementById('avgDelay').textContent = '3.2j';
-            
-            // Type stats
-            updateTypeStats();
-        }
         
-        // Update type stats
-        function updateTypeStats() {
-            const container = document.getElementById('typeStats');
-            const expertises = appState.data.expertises;
-            
-            if (expertises.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📊</div>
-                        <div class="empty-state-title">Pas de données</div>
-                        <div class="empty-state-subtitle">Ajoutez des expertises pour voir les statistiques</div>
-                    </div>
-                `;
-                return;
-            }
-            
-            const types = {};
-            expertises.forEach(e => {
-                types[e.type] = (types[e.type] || 0) + 1;
-            });
-            
-            container.innerHTML = Object.entries(types).map(([type, count]) => `
-                <div style="margin-bottom: 12px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>${type}</span>
-                        <span style="font-weight: 600;">${count}</span>
-                    </div>
-                    <div style="height: 8px; background: var(--secondary); border-radius: 4px; overflow: hidden;">
-                        <div style="height: 100%; background: var(--primary); width: ${(count / expertises.length * 100)}%;"></div>
-                    </div>
-                </div>
-            `).join('');
-        }
         
         // View expertise
+        let currentExpertiseId = null;
         function viewExpertise(id) {
             const expertise = appState.data.expertises.find(e => e.id === id);
             if (!expertise) return;
             
-            showToast(`${expertise.patientName} - ${expertise.procedure}`);
+            currentExpertiseId = id;
+            
+            const detailHtml = `
+                <div style="display: grid; gap: 16px;">
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">Patient</div>
+                        <div style="font-weight: 600; font-size: 18px;">${expertise.patientName}</div>
+                    </div>
+                    ${expertise.patientDob ? `
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">Date de naissance</div>
+                        <div>${new Date(expertise.patientDob).toLocaleDateString('fr-FR')}</div>
+                    </div>` : ''}
+                    ${expertise.expertiseDate ? `
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">Date d'expertise</div>
+                        <div>${new Date(expertise.expertiseDate).toLocaleDateString('fr-FR')}</div>
+                    </div>` : `
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">Statut</div>
+                        <div>En attente</div>
+                    </div>`}
+                    ${expertise.lieu ? `
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">Lieu</div>
+                        <div>${expertise.lieu}</div>
+                    </div>` : ''}
+                    ${expertise.magistrat ? `
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">Magistrat</div>
+                        <div>${expertise.magistrat}</div>
+                    </div>` : ''}
+                    ${expertise.procedure ? `
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">N° Procédure</div>
+                        <div>${expertise.procedure}</div>
+                    </div>` : ''}
+                    ${expertise.notes ? `
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">Notes</div>
+                        <div style="white-space: pre-wrap;">${expertise.notes}</div>
+                    </div>` : ''}
+                </div>
+            `;
+            
+            document.getElementById('expertiseDetailContent').innerHTML = detailHtml;
+            showModal('expertiseDetailModal');
         }
         
-        // Update settings
-        function updateSettings() {
-            document.getElementById('practitionerName').value = appState.data.settings.practitionerName;
-            document.getElementById('practitionerAddress').value = appState.data.settings.practitionerAddress;
+        // Update calendar
+        let currentCalendarDate = new Date();
+        
+        function updateCalendar() {
+            const container = document.getElementById('calendarContainer');
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            
+            // Get first day of month and number of days
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+            
+            // Get expertises for this month
+            const monthExpertises = appState.data.expertises.filter(exp => {
+                if (!exp.expertiseDate) return false;
+                const expDate = new Date(exp.expertiseDate);
+                return expDate.getMonth() === month && expDate.getFullYear() === year;
+            });
+            
+            // Group expertises by day
+            const expertisesByDay = {};
+            monthExpertises.forEach(exp => {
+                const day = new Date(exp.expertiseDate).getDate();
+                if (!expertisesByDay[day]) expertisesByDay[day] = [];
+                expertisesByDay[day].push(exp);
+            });
+            
+            let html = `
+                <div class="calendar-header">
+                    <div class="calendar-month">
+                        ${new Date(year, month).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
+                    </div>
+                    <div class="calendar-nav">
+                        <button onclick="changeMonth(-1)">◀</button>
+                        <button onclick="changeMonth(1)">▶</button>
+                    </div>
+                </div>
+                <div class="calendar-grid">
+            `;
+            
+            // Day headers (starting with Monday)
+            const dayNames = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+            dayNames.forEach(day => {
+                html += `<div class="calendar-day-header">${day}</div>`;
+            });
+            
+            // Calculate adjusted first day (0=Sunday becomes 6, 1=Monday becomes 0, etc.)
+            const adjustedFirstDay = firstDay === 0 ? 6 : firstDay - 1;
+            
+            // Previous month days
+            for (let i = adjustedFirstDay - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                html += `<div class="calendar-day other-month">${day}</div>`;
+            }
+            
+            // Current month days
+            const today = new Date();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const isToday = today.getDate() === day && today.getMonth() === month && today.getFullYear() === year;
+                const hasExpertise = expertisesByDay[day];
+                const classes = ['calendar-day'];
+                if (isToday) classes.push('today');
+                if (hasExpertise) classes.push('has-expertise');
+                
+                html += `
+                    <div class="${classes.join(' ')}" style="cursor: pointer;" onclick="showDayExpertises(${year}, ${month}, ${day})">
+                        <div class="calendar-day-number">${day}</div>
+                        ${hasExpertise ? `<div class="calendar-day-count">${expertisesByDay[day].length}</div>` : ''}
+                    </div>
+                `;
+            }
+            
+            // Next month days
+            const totalCells = adjustedFirstDay + daysInMonth;
+            const remainingCells = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+            for (let day = 1; day <= remainingCells; day++) {
+                html += `<div class="calendar-day other-month">${day}</div>`;
+            }
+            
+            html += '</div>';
+            container.innerHTML = html;
         }
         
-        // Save settings
-        function saveSettings() {
-            appState.data.settings.practitionerName = document.getElementById('practitionerName').value;
-            appState.data.settings.practitionerAddress = document.getElementById('practitionerAddress').value;
-            saveData();
-            showToast('Paramètres enregistrés');
+        function changeMonth(direction) {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + direction);
+            updateCalendar();
+        }
+        
+        function showDayExpertises(year, month, day) {
+            // Create date string directly to avoid timezone issues
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const expertises = appState.data.expertises.filter(exp => exp.expertiseDate && exp.expertiseDate === dateStr);
+            
+            if (expertises.length === 0) {
+                // No expertise for this day
+                const displayDate = new Date(year, month, day);
+                showToast(`Aucune expertise le ${displayDate.toLocaleDateString('fr-FR')}`);
+            } else if (expertises.length === 1) {
+                viewExpertise(expertises[0].id);
+            } else {
+                // Show list of expertises for this day
+                const listHtml = expertises.map(exp => `
+                    <div class="list-item" onclick="closeModal('dayExpertisesModal'); viewExpertise(${exp.id})">
+                        <div class="list-item-header">${exp.patientName}</div>
+                        <div class="list-item-details">
+                            ${exp.lieu || 'Non précisé'}
+                            ${exp.magistrat ? ' - ' + exp.magistrat : ''}
+                        </div>
+                    </div>
+                `).join('');
+                
+                document.getElementById('dayExpertisesContent').innerHTML = listHtml;
+                const displayDate = new Date(year, month, day);
+                document.getElementById('dayExpertisesTitle').textContent = `Expertises du ${displayDate.toLocaleDateString('fr-FR')}`;
+                showModal('dayExpertisesModal');
+            }
+        }
+        
+        // Go to specific date in calendar
+        function goToDate() {
+            const dateInput = document.getElementById('calendarSearch').value;
+            if (dateInput) {
+                const date = new Date(dateInput);
+                currentCalendarDate = new Date(date.getFullYear(), date.getMonth(), 1);
+                updateCalendar();
+            }
+        }
+        
+        // Go to today in calendar
+        function goToToday() {
+            const today = new Date();
+            currentCalendarDate = new Date(today.getFullYear(), today.getMonth(), 1);
+            updateCalendar();
+            document.getElementById('calendarSearch').value = today.toISOString().split('T')[0];
+        }
+        
+        // Search expertises
+        function searchExpertises() {
+            const searchTerm = document.getElementById('searchExpertises').value.toLowerCase();
+            updateExpertisesList(searchTerm);
+        }
+        
+        // Delete expertise
+        function deleteExpertise() {
+            if (!currentExpertiseId) return;
+            
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette expertise ?')) {
+                appState.data.expertises = appState.data.expertises.filter(e => e.id !== currentExpertiseId);
+                saveData();
+                updateUI();
+                closeModal('expertiseDetailModal');
+                showToast('Expertise supprimée');
+            }
+        }
+        
+        // Edit expertise
+        function editExpertise() {
+            if (!currentExpertiseId) return;
+            const expertise = appState.data.expertises.find(e => e.id === currentExpertiseId);
+            if (!expertise) return;
+            
+            // Fill form with expertise data
+            document.getElementById('patientName').value = expertise.patientName || '';
+            document.getElementById('patientDob').value = expertise.patientDob || '';
+            document.getElementById('expertiseDate').value = expertise.expertiseDate || '';
+            document.getElementById('expertiseLieu').value = expertise.lieu || '';
+            document.getElementById('magistrat').value = expertise.magistrat || '';
+            document.getElementById('procedure').value = expertise.procedure || '';
+            document.getElementById('tj').value = expertise.TJ || '';
+            
+            // Parse notes to extract fields
+            const notes = expertise.notes || '';
+            const extractField = (fieldName) => {
+                const regex = new RegExp(`${fieldName}:\\s*([^\\n]+)`);
+                const match = notes.match(regex);
+                return match ? match[1] : '';
+            };
+            
+            document.getElementById('opjGreffier').value = extractField('OPJ/Greffier');
+            document.getElementById('age').value = extractField('Age');
+            document.getElementById('profession').value = extractField('Profession');
+            document.getElementById('domicile').value = extractField('Domicile');
+            document.getElementById('procedureBis').value = extractField('Procédure_bis');
+            document.getElementById('chefs').value = extractField('Chefs');
+            document.getElementById('dateOCE').value = extractField('Date_OCE');
+            document.getElementById('limiteOCE').value = extractField('Limite_OCE');
+            
+            // Remove current expertise to update it
+            appState.data.expertises = appState.data.expertises.filter(e => e.id !== currentExpertiseId);
+            
+            closeModal('expertiseDetailModal');
+            showModal('newExpertiseModal');
         }
         
         // Import database
@@ -1212,52 +1704,184 @@ Total : ${montant}€`;
                 return;
             }
             
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    
-                    // Validate data structure
-                    if (!data.expertises || !Array.isArray(data.expertises)) {
-                        // Try to convert from CrimiTrack format
-                        if (data.patients && Array.isArray(data.patients)) {
-                            // Convert patients to expertises
-                            const expertises = data.patients.map(patient => ({
-                                id: Date.now() + Math.random(),
-                                patientName: patient.patronyme || `${patient.nom} ${patient.prenom}`,
-                                patientDob: patient.dateNaissance || '',
-                                expertiseDate: patient.dateExamen || new Date().toISOString().split('T')[0],
-                                expertiseTime: patient.heureExamen || '09:00',
-                                magistrat: patient.magistrat || '',
-                                procedure: patient.numeroInstruction || patient.procedure || '',
-                                type: 'standard',
-                                notes: patient.notes || '',
-                                createdAt: new Date().toISOString(),
-                                status: 'pending'
-                            }));
+            const fileName = file.name.toLowerCase();
+            
+            if (fileName.endsWith('.xlsx')) {
+                // Handle Excel file
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = e.target.result;
+                        const workbook = XLSX.read(data, { type: 'binary' });
+                        // Read all sheets
+                        let allExpertises = [];
+                        let globalIndex = 0;
+                        
+                        // Process each sheet
+                        workbook.SheetNames.forEach((sheetName, sheetIndex) => {
+                            const sheet = workbook.Sheets[sheetName];
+                            // Read with header option to get column letters
+                            const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
                             
-                            appState.data.expertises = expertises;
-                            saveData();
-                            updateUI();
-                            closeModal('importModal');
-                            showToast(`${expertises.length} expertises importées`);
-                            return;
-                        }
-                        throw new Error('Format de fichier invalide');
+                            
+                            // Skip header row and map data
+                            const expertises = jsonData.slice(1).map((row, rowIndex) => {
+                                // Skip empty rows or rows without both date AND name
+                                if (!row || (!row[0] && !row[5])) {
+                                    return null;
+                                }
+                                
+                                // Skip rows without valid name
+                                if (!row[5] || row[5].trim() === '') {
+                                    return null;
+                                }
+                                
+                                // Map columns: A=Date, B=Lieu, C=OPJ/Greffier, D=Substitut, E=TJ, F=Patronyme, 
+                                // G=DDN, H=Age, I=Profession, J=Domicile, K=Procédure, L=Procédure_bis, 
+                                // M=Chefs, N=Date_OCE, O=Limite_OCE
+                                
+                                // Determine status based on sheet name
+                                const isListing = sheetName.toLowerCase().includes('listing');
+                                const isAttentes = sheetName.toLowerCase().includes('attente');
+                                let status = 'pending';
+                                
+                                if (isListing) {
+                                    status = 'completed';
+                                } else if (isAttentes) {
+                                    status = 'pending';
+                                } else {
+                                    // Default: first sheet = completed, others = pending
+                                    status = sheetIndex === 0 ? 'completed' : 'pending';
+                                }
+                                // Parse date from column A
+                                let expertiseDate = null;
+                                if (row[0]) {
+                                    if (typeof row[0] === 'number') {
+                                        // Excel date serial number
+                                        const excelDate = XLSX.SSF.parse_date_code(row[0]);
+                                        expertiseDate = `${excelDate.y}-${String(excelDate.m).padStart(2, '0')}-${String(excelDate.d).padStart(2, '0')}`;
+                                    } else if (typeof row[0] === 'string') {
+                                        // Parse DD/MM/YYYY format
+                                        const dateParts = row[0].split('/');
+                                        if (dateParts.length === 3) {
+                                            expertiseDate = `${dateParts[2]}-${dateParts[1].padStart(2, '0')}-${dateParts[0].padStart(2, '0')}`;
+                                        } else {
+                                            // Try standard parsing
+                                            const parsedDate = new Date(row[0]);
+                                            if (!isNaN(parsedDate)) {
+                                                expertiseDate = parsedDate.toISOString().split('T')[0];
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                // Parse birth date from column G
+                                let patientDob = '';
+                                if (row[6]) {
+                                    if (typeof row[6] === 'number') {
+                                        const excelDate = XLSX.SSF.parse_date_code(row[6]);
+                                        patientDob = `${excelDate.y}-${String(excelDate.m).padStart(2, '0')}-${String(excelDate.d).padStart(2, '0')}`;
+                                    } else if (typeof row[6] === 'string') {
+                                        const dateParts = row[6].split('/');
+                                        if (dateParts.length === 3) {
+                                            patientDob = `${dateParts[2]}-${dateParts[1].padStart(2, '0')}-${dateParts[0].padStart(2, '0')}`;
+                                        }
+                                    }
+                                }
+                                
+                                // Build notes from additional fields
+                                const notes = [];
+                                if (row[2]) notes.push(`OPJ/Greffier: ${row[2]}`);
+                                if (row[7]) notes.push(`Age: ${row[7]}`);
+                                if (row[8]) notes.push(`Profession: ${row[8]}`);
+                                if (row[9]) notes.push(`Domicile: ${row[9]}`);
+                                if (row[11]) notes.push(`Procédure_bis: ${row[11]}`);
+                                if (row[12]) notes.push(`Chefs: ${row[12]}`);
+                                if (row[13]) notes.push(`Date_OCE: ${row[13]}`);
+                                if (row[14]) notes.push(`Limite_OCE: ${row[14]}`);
+                                
+                                const uniqueId = Date.now() + globalIndex++;
+                                
+                                return {
+                                    id: uniqueId,
+                                    patientName: row[5] || '', // F=Patronyme
+                                    patientDob: patientDob, // G=DDN
+                                    expertiseDate: expertiseDate || (status === 'pending' ? null : new Date().toISOString().split('T')[0]), // A=Date
+                                    expertiseTime: '09:00',
+                                    lieu: row[1] || '', // B=Lieu
+                                    magistrat: row[3] || '', // D=Substitut
+                                    procedure: row[10] || '', // K=Procédure
+                                    type: 'normale',
+                                    notes: notes.join('\n'),
+                                    TJ: row[4] || '', // E=TJ
+                                    createdAt: new Date().toISOString(),
+                                    status: status
+                                };
+                            }).filter(exp => exp !== null);
+                            
+                            allExpertises = allExpertises.concat(expertises);
+                        });
+                        
+                        appState.data.expertises = allExpertises;
+                        saveData();
+                        updateUI();
+                        closeModal('importModal');
+                        showToast(`${allExpertises.length} expertises importées depuis Excel`);
+                    } catch (error) {
+                        console.error('Excel import error:', error);
+                        showToast('Erreur lors de l\'import du fichier Excel');
                     }
-                    
-                    // Direct import if correct format
-                    appState.data = data;
-                    saveData();
-                    updateUI();
-                    closeModal('importModal');
-                    showToast('Base de données importée');
-                } catch (error) {
-                    console.error('Import error:', error);
-                    showToast('Erreur lors de l\'import du fichier');
-                }
-            };
-            reader.readAsText(file);
+                };
+                reader.readAsBinaryString(file);
+            } else {
+                // Handle JSON file
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        
+                        // Validate data structure
+                        if (!data.expertises || !Array.isArray(data.expertises)) {
+                            // Try to convert from CrimiTrack format
+                            if (data.patients && Array.isArray(data.patients)) {
+                                // Convert patients to expertises
+                                const expertises = data.patients.map(patient => ({
+                                    id: Date.now() + Math.random(),
+                                    patientName: patient.patronyme || `${patient.nom} ${patient.prenom}`,
+                                    patientDob: patient.dateNaissance || '',
+                                    expertiseDate: patient.dateExamen || new Date().toISOString().split('T')[0],
+                                    expertiseTime: patient.heureExamen || '09:00',
+                                    magistrat: patient.magistrat || '',
+                                    procedure: patient.numeroInstruction || patient.procedure || '',
+                                    type: 'normale',
+                                    notes: patient.notes || '',
+                                    createdAt: new Date().toISOString(),
+                                    status: 'pending'
+                                }));
+                                
+                                appState.data.expertises = expertises;
+                                saveData();
+                                updateUI();
+                                closeModal('importModal');
+                                showToast(`${expertises.length} expertises importées`);
+                                return;
+                            }
+                            throw new Error('Format de fichier invalide');
+                        }
+                        
+                        // Direct import if correct format
+                        appState.data = data;
+                        saveData();
+                        updateUI();
+                        closeModal('importModal');
+                        showToast('Base de données importée');
+                    } catch (error) {
+                        console.error('Import error:', error);
+                        showToast('Erreur lors de l\'import du fichier');
+                    }
+                };
+                reader.readAsText(file);
+            }
         }
         
         // Export data
@@ -1289,6 +1913,21 @@ Total : ${montant}€`;
             }
         }
         
+        // Calculate age from date of birth
+        function calculateAge() {
+            const dob = document.getElementById('patientDob').value;
+            if (dob) {
+                const birthDate = new Date(dob);
+                const today = new Date();
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                document.getElementById('age').value = age;
+            }
+        }
+        
         // Initialize on load
         document.addEventListener('DOMContentLoaded', init);
         
@@ -1297,21 +1936,7 @@ Total : ${montant}€`;
             e.preventDefault();
         });
         
-        // Register service worker for offline capability
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('data:application/javascript,' + encodeURIComponent(`
-                const CACHE_NAME = 'crimitrack-mobile-v1';
-                self.addEventListener('install', e => {
-                    self.skipWaiting();
-                });
-                self.addEventListener('activate', e => {
-                    clients.claim();
-                });
-                self.addEventListener('fetch', e => {
-                    e.respondWith(fetch(e.request).catch(() => new Response('Offline')));
-                });
-            `)).catch(err => console.log('SW registration failed'));
-        }
+        // Service worker désactivé pour éviter les erreurs
     </script>
 </body>
 </html>
