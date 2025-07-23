@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Expertises Pro - Publipostage & Calendrier</title>
+    <meta name="description" content="Application professionnelle d'expertises criminologiques - Publipostage et gestion calendaire">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Expertises Pro">
+    <meta name="theme-color" content="#1a202c">
+    
+    <!-- PWA Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9IiMxYTIwMmMiLz4KPHN2ZyB4PSI0OCIgeT0iNDgiIHdpZHRoPSI5NiIgaGVpZ2h0PSI5NiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiPgo8cGF0aCBkPSJNMTQgMkg2YTIgMiAwIDAgMC0yIDJ2MTZhMiAyIDAgMCAwIDIgMmgxMmEyIDIgMCAwIDAgMi0yVjhsLTYtNnoiLz4KPHBhdGggZD0iTTE0IDJWOGg2Ii8+CjxsaW5lIHgxPSI5IiB5MT0iOSIgeDI9IjE1IiB5Mj0iMTUiLz4KPGxpbmUgeDE9IjE1IiB5MT0iOSIgeDI9IjkiIHkyPSIxNSIvPgo8L3N2Zz4KPC9zdmc+">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9IiMxYTIwMmMiLz4KPHN2ZyB4PSI0OCIgeT0iNDgiIHdpZHRoPSI5NiIgaGVpZ2h0PSI5NiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiPgo8cGF0aCBkPSJNMTQgMkg2YTIgMiAwIDAgMC0yIDJ2MTZhMiAyIDAgMCAwIDIgMmgxMmEyIDIgMCAwIDAgMi0yVjhsLTYtNnoiLz4KPHBhdGggZD0iTTE0IDJWOGg2Ii8+CjxsaW5lIHgxPSI5IiB5MT0iOSIgeDI9IjE1IiB5Mj0iMTUiLz4KPGxpbmUgeDE9IjE1IiB5MT0iOSIgeDI9IjkiIHkyPSIxNSIvPgo8L3N2Zz4KPC9zdmc+">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="data:application/json;charset=utf-8;base64,eyJuYW1lIjoiRXhwZXJ0aXNlcyBQcm8gLSBQdWJsaXBvc3RhZ2UgJiBDYWxlbmRyaWVyIiwic2hvcnRfbmFtZSI6IkV4cGVydGlzZXMgUHJvIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwidGhlbWVfY29sb3IiOiIjMWEyMDJjIiwiYmFja2dyb3VuZF9jb2xvciI6IiNmZmZmZmYiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yV3lCM2FXUjBhRDBpTVRreUlpQm9aV2xuYUhROUlqRTVNaUlpSUhacFpYZENiM2c5SWpBZ01DQXhPVElnTVRreUlpQm1hV3hzUFNKdWIyNWxJaUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lQZ28KOEpnbEY5MEloQmNURkJhTVRFc2NRVlF4VEhDQlpoUU9DeU1kWTNORWNpNTdPd0l4TmtnZFZySGJBZFMzSm84QU5kVlIiLCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCJ9XX0=">
+    
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.8.2/docx.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #1a202c;
+            --secondary-color: #2563eb;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --light-bg: #f8fafc;
+            --white: #ffffff;
+            --text-dark: #1a202c;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --radius: 16px;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-dark: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--gradient-primary);
+            min-height: 100vh;
+            padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overscroll-behavior: none;
+        }
+
+        .app-container {
+            max-width: 100vw;
+            margin: 0 auto;
+            background: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            background: var(--white);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: env(safe-area-inset-top, 0);
+            z-index: 100;
+            padding: 0 env(safe-area-inset-left, 0) 0 env(safe-area-inset-right, 0);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 20px 16px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .nav-tab.active {
+            color: var(--secondary-color);
+        }
+
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 3px 3px 0 0;
+        }
+
+        .nav-tab:hover {
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 env(safe-area-inset-left, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-right, 0);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .content-inner {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        .page-header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding: 24px 0;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: var(--text-light);
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .card-icon {
+            font-size: 24px;
+        }
+
+        /* File Upload Styles */
+        .file-upload {
+            border: 3px dashed var(--secondary-color);
+            border-radius: var(--radius);
+            padding: 48px 24px;
+            text-align: center;
+            background: rgba(37, 99, 235, 0.02);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-upload:hover {
+            border-color: var(--accent-color);
+            background: rgba(37, 99, 235, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .file-upload.dragover {
+            border-color: var(--success-color);
+            background: rgba(16, 185, 129, 0.05);
+            transform: scale(1.01);
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-upload-content {
+            pointer-events: none;
+        }
+
+        .file-upload-icon {
+            font-size: 48px;
+            color: var(--secondary-color);
+            margin-bottom: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .file-upload:hover .file-upload-icon {
+            transform: scale(1.1);
+        }
+
+        .file-upload h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .file-upload p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* Variables Section */
+        .variables-section {
+            background: var(--light-bg);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-top: 20px;
+            min-height: 180px;
+        }
+
+        .variables-empty {
+            text-align: center;
+            color: var(--text-light);
+            font-style: italic;
+            padding: 32px;
+        }
+
+        .variable-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            background: var(--white);
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .variable-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .variable-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            min-width: 120px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', monospace;
+            background: #f1f5f9;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .variable-input {
+            flex: 1;
+            margin-left: 16px;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .variable-input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            min-height: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+            color: var(--white);
+            box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.39);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(37, 99, 235, 0.5);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+            color: var(--white);
+            box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.39);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(16, 185, 129, 0.5);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        /* Calendar Styles */
+        .calendar-container {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .calendar-header {
+            background: var(--gradient-dark);
+            color: var(--white);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            gap: 16px;
+        }
+
+        .calendar-nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .calendar-nav button {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--white);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .calendar-nav button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .calendar-title {
+            font-size: 20px;
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+        }
+
+        .calendar-filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 6px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: var(--white);
+            color: var(--primary-color);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: var(--border-color);
+        }
+
+        .calendar-day-header {
+            background: var(--light-bg);
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .calendar-day {
+            background: var(--white);
+            min-height: 100px;
+            padding: 8px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .calendar-day:hover {
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .calendar-day.other-month {
+            background: #fafafa;
+            color: #ccc;
+        }
+
+        .calendar-day.today {
+            background: rgba(37, 99, 235, 0.1);
+            border: 2px solid var(--secondary-color);
+        }
+
+        .day-number {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .expertise-item {
+            background: var(--secondary-color);
+            color: var(--white);
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-bottom: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .expertise-item.attente {
+            background: var(--warning-color);
+        }
+
+        .expertise-item.passe {
+            background: var(--success-color);
+        }
+
+        .expertise-item:hover {
+            transform: scale(1.05);
+            z-index: 10;
+            position: relative;
+        }
+
+        /* File Upload for Calendar */
+        .calendar-file-upload {
+            margin-bottom: 24px;
+        }
+
+        /* Status Messages */
+        .status-message {
+            padding: 16px;
+            border-radius: 12px;
+            margin: 16px 0;
+            font-weight: 500;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .status-success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .status-error {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .status-info {
+            background: #dbeafe;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content-inner {
+                padding: 16px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .nav-tab {
+                padding: 16px 12px;
+                font-size: 14px;
+            }
+
+            .calendar-day {
+                min-height: 80px;
+                padding: 6px;
+            }
+
+            .expertise-item {
+                font-size: 10px;
+            }
+
+            .variable-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .variable-label {
+                min-width: auto;
+                margin-bottom: 8px;
+            }
+
+            .variable-input {
+                margin-left: 0;
+            }
+        }
+
+        /* iPad Pro 13" Optimizations */
+        @media (min-width: 1024px) and (max-width: 1366px) {
+            .app-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                border-radius: var(--radius);
+                margin-top: 20px;
+                margin-bottom: 20px;
+                min-height: calc(100vh - 40px);
+            }
+
+            .nav-tabs {
+                border-radius: var(--radius) var(--radius) 0 0;
+            }
+
+            .calendar-grid {
+                font-size: 16px;
+            }
+
+            .calendar-day {
+                min-height: 120px;
+            }
+
+            .content-inner {
+                padding: 32px;
+            }
+        }
+
+        /* iPhone Optimizations */
+        @media (max-width: 480px) {
+            .calendar-filters {
+                justify-content: center;
+            }
+
+            .filter-btn {
+                flex: 1;
+                text-align: center;
+                min-width: 80px;
+            }
+
+            .calendar-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .calendar-nav {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .buttons-container {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* PWA Specific Styles */
+        @media all and (display-mode: standalone) {
+            body {
+                padding-top: env(safe-area-inset-top, 0);
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --white: #1a202c;
+                --light-bg: #2d3748;
+                --text-dark: #f7fafc;
+                --text-light: #a0aec0;
+                --border-color: #4a5568;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="publipostage">
+                📝 Publipostage
+            </button>
+            <button class="nav-tab" data-tab="calendrier">
+                📅 Calendrier
+            </button>
+        </nav>
+
+        <!-- Publipostage Tab -->
+        <div id="publipostage" class="tab-content active">
+            <div class="content-inner">
+                <div class="page-header">
+                    <h1>📝 Publipostage Professionnel</h1>
+                    <p>Traitement sécurisé de documents Word avec substitution de variables</p>
+                </div>
+
+                <!-- File Selection Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">📄</span>
+                        <h2>Sélection du document</h2>
+                    </div>
+                    
+                    <div class="file-upload" id="fileUpload">
+                        <div class="file-upload-content">
+                            <div class="file-upload-icon">📎</div>
+                            <h3>Sélectionnez votre document Word</h3>
+                            <p>Glissez-déposez votre fichier .docx ou cliquez pour parcourir</p>
+                            <p style="font-size: 12px; margin-top: 8px; opacity: 0.7;">
+                                Compatible avec iCloud Drive et tous vos dossiers
+                            </p>
+                        </div>
+                        <input type="file" id="fileInput" accept=".docx,.doc" />
+                    </div>
+                    
+                    <div class="status-message" id="statusMessage"></div>
+                </div>
+
+                <!-- Variables Configuration Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">🔧</span>
+                        <h2>Configuration des variables</h2>
+                    </div>
+                    
+                    <div class="variables-section" id="variablesSection">
+                        <div class="variables-empty">
+                            Chargez un document Word pour détecter automatiquement les variables à substituer
+                        </div>
+                    </div>
+
+                    <div class="buttons-container">
+                        <button class="btn btn-primary" id="analyzeBtn" onclick="analyzeDocument()" disabled>
+                            🔍 Analyser le document
+                        </button>
+                        <button class="btn btn-success" id="generateBtn" onclick="generateDocument()" disabled>
+                            ✨ Générer le document
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar Tab -->
+        <div id="calendrier" class="tab-content">
+            <div class="content-inner">
+                <div class="page-header">
+                    <h1>📅 Calendrier des Expertises</h1>
+                    <p>Gestion et visualisation de vos expertises criminologiques</p>
+                </div>
+
+                <!-- Calendar File Upload -->
+                <div class="card calendar-file-upload">
+                    <div class="card-header">
+                        <span class="card-icon">📊</span>
+                        <h2>Base de données des expertises</h2>
+                    </div>
+                    
+                    <div class="file-upload" id="excelFileUpload">
+                        <div class="file-upload-content">
+                            <div class="file-upload-icon">📊</div>
+                            <h3>Chargez votre fichier Excel d'expertises</h3>
+                            <p>Sélectionnez Expertises_Liste.xlsx depuis iCloud</p>
+                        </div>
+                        <input type="file" id="excelFileInput" accept=".xlsx,.xls" />
+                    </div>
+                    
+                    <div class="status-message" id="calendarStatusMessage"></div>
+                </div>
+
+                <!-- Calendar Display -->
+                <div class="card" id="calendarCard" style="display: none;">
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <div class="calendar-nav">
+                                <button onclick="changeMonth(-1)">‹</button>
+                                <button onclick="changeMonth(1)">›</button>
+                            </div>
+                            <div class="calendar-title" id="calendarTitle">
+                                Juillet 2025
+                            </div>
+                            <div class="calendar-filters">
+                                <button class="filter-btn active" data-filter="all">Toutes</button>
+                                <button class="filter-btn" data-filter="passees">Passées</button>
+                                <button class="filter-btn" data-filter="programmees">Programmées</button>
+                                <button class="filter-btn" data-filter="attente">En attente</button>
+                            </div>
+                        </div>
+                        
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Calendar will be generated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Service Worker Registration for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('data:application/javascript;base64,Ly8gU2VydmljZSBXb3JrZXIgZm9yIEV4cGVydGlzZXMgUHJvCmNvbnN0IENBQ0hFX05BTUUgPSAnZXhwZXJ0aXNlcy1wcm8tdjEnOwpjb25zdCB1cmxzVG9DYWNoZSA9IFsKICAgICcuJywKICAgICcvaW5kZXguaHRtbCcsCiAgICAnaHR0cHM6Ly9jZG5qcy5jbG91ZGZsYXJlLmNvbS9hamF4L2xpYnMvbWFtbW90aC8xLjQuMi9tYW1tb3RoLmJyb3dzZXIubWluLmpzJywKICAgICdodHRwczovL2NkbmpzLmNsb3VkZmxhcmUuY29tL2FqYXgvbGlicy9kb2N4LzcuOC4yL2RvY3gubWluLmpzJywKICAgICdodHRwczovL2NkbmpzLmNsb3VkZmxhcmUuY29tL2FqYXgvbGlicy9GaWxlU2F2ZXIuanMvMi4wLjUvRmlsZVNhdmVyLm1pbi5qcycKXTsKCnNlbGYuYWRkRXZlbnRMaXN0ZW5lcignaW5zdGFsbCcsIGZ1bmN0aW9uKGV2ZW50KSB7CiAgICBldmVudC53YWl0VW50aWwoCiAgICAgICAgY2FjaGVzLm9wZW4oQ0FDSEVfTkFNRSkKICAgICAgICAgICAgLnRoZW4oZnVuY3Rpb24oY2FjaGUpIHsKICAgICAgICAgICAgICAgIHJldHVybiBjYWNoZS5hZGRBbGwodXJsc1RvQ2FjaGUpOwogICAgICAgICAgICB9KQogICAgKTsKfSk7CgpzZWxmLmFkZEV2ZW50TGlzdGVuZXIoJ2ZldGNoJywgZnVuY3Rpb24oZXZlbnQpIHsKICAgIGV2ZW50LnJlc3BvbmRXaXRoKAogICAgICAgIGNhY2hlcy5tYXRjaChldmVudC5yZXF1ZXN0KQogICAgICAgICAgICAudGhlbihmdW5jdGlvbihyZXNwb25zZSkgewogICAgICAgICAgICAgICAgaWYgKHJlc3BvbnNlKSB7CiAgICAgICAgICAgICAgICAgICAgcmV0dXJuIHJlc3BvbnNlOwogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgcmV0dXJuIGZldGNoKGV2ZW50LnJlcXVlc3QpOwogICAgICAgICAgICB9KQogICAgKTsKfSk7')
+                .then(function(registration) {
+                    console.log('ServiceWorker registered successfully:', registration.scope);
+                })
+                .catch(function(error) {
+                    console.log('ServiceWorker registration failed:', error);
+                });
+            });
+        }
+
+        // Global Variables
+        let currentFile = null;
+        let documentContent = '';
+        let detectedVariables = [];
+        let templates = JSON.parse(localStorage.getItem('expertisesTemplates') || '{}');
+        let expertisesData = null;
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let activeFilter = 'all';
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', function() {
+            setupFileUpload();
+            setupCalendarFileUpload();
+            setupCalendarFilters();
+            setupTabNavigation();
+        });
+
+        // Tab Management
+        function setupTabNavigation() {
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.dataset.tab;
+                    switchTab(tabName);
+                });
+            });
+        }
+
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked nav tab
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+        }
+
+        // File Upload Setup for Publipostage
+        function setupFileUpload() {
+            const fileUpload = document.getElementById('fileUpload');
+            const fileInput = document.getElementById('fileInput');
+
+            fileUpload.addEventListener('click', () => fileInput.click());
+            fileUpload.addEventListener('dragover', handleDragOver);
+            fileUpload.addEventListener('dragleave', handleDragLeave);
+            fileUpload.addEventListener('drop', handleDrop);
+            fileInput.addEventListener('change', handleFileSelect);
+        }
+
+        // File Upload Setup for Calendar
+        function setupCalendarFileUpload() {
+            const fileUpload = document.getElementById('excelFileUpload');
+            const fileInput = document.getElementById('excelFileInput');
+
+            fileUpload.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', handleExcelFileSelect);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('dragover');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileSelect({ target: { files } });
+            }
+        }
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (!file.name.toLowerCase().endsWith('.docx')) {
+                showStatus('Veuillez sélectionner un fichier Word (.docx)', 'error');
+                return;
+            }
+
+            currentFile = file;
+            document.getElementById('analyzeBtn').disabled = false;
+            showStatus(`Document "${file.name}" chargé avec succès. Cliquez sur "Analyser" pour détecter les variables.`, 'success');
+        }
+
+        // Excel File Handling for Calendar
+        async function handleExcelFileSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (!file.name.toLowerCase().includes('.xlsx') && !file.name.toLowerCase().includes('.xls')) {
+                showCalendarStatus('Veuillez sélectionner un fichier Excel (.xlsx)', 'error');
+                return;
+            }
+
+            showCalendarStatus('Chargement du fichier Excel...', 'info');
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                
+                // Using SheetJS (already loaded via CDN)
+                if (typeof XLSX === 'undefined') {
+                    // Fallback: load SheetJS if not available
+                    const script = document.createElement('script');
+                    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+                    document.head.appendChild(script);
+                    await new Promise(resolve => script.onload = resolve);
+                }
+
+                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                
+                // Process Listing sheet
+                const listingSheet = workbook.Sheets['Listing'];
+                const listingData = XLSX.utils.sheet_to_json(listingSheet, { header: 1 });
+                
+                // Process Attentes sheet
+                const attentesSheet = workbook.Sheets['Attentes'];
+                const attentesData = attentesSheet ? XLSX.utils.sheet_to_json(attentesSheet, { header: 1 }) : [];
+
+                expertisesData = {
+                    listing: processExpertisesData(listingData),
+                    attentes: processAttentesData(attentesData)
+                };
+
+                showCalendarStatus(`Fichier chargé avec succès! ${expertisesData.listing.length} expertises trouvées.`, 'success');
+                document.getElementById('calendarCard').style.display = 'block';
+                renderCalendar();
+
+            } catch (error) {
+                console.error('Erreur lors du chargement du fichier Excel:', error);
+                showCalendarStatus('Erreur lors du chargement du fichier Excel.', 'error');
+            }
+        }
+
+        function processExpertisesData(data) {
+            if (data.length < 2) return [];
+            
+            const headers = data[0];
+            const expertises = [];
+            
+            for (let i = 1; i < data.length; i++) {
+                const row = data[i];
+                if (row[0]) { // Si il y a une date
+                    try {
+                        const expertise = {
+                            date: new Date(row[0]),
+                            lieu: row[1] || '',
+                            opj: row[2] || '',
+                            substitut: row[3] || '',
+                            tj: row[4] || '',
+                            patronyme: row[5] || '',
+                            ddn: row[6] || '',
+                            age: row[7] || '',
+                            procedure: row[10] || '',
+                            chefs: row[12] || '',
+                            dateOce: row[13] ? new Date(row[13]) : null,
+                            limiteOce: row[14] ? new Date(row[14]) : null,
+                            type: row[15] || '',
+                            status: 'passe' // Expertise réalisée
+                        };
+                        expertises.push(expertise);
+                    } catch (e) {
+                        // Ignorer les lignes avec des erreurs de date
+                    }
+                }
+            }
+            
+            return expertises;
+        }
+
+        function processAttentesData(data) {
+            if (data.length < 2) return [];
+            
+            const attentes = [];
+            
+            for (let i = 1; i < data.length; i++) {
+                const row = data[i];
+                if (row[0]) {
+                    try {
+                        const attente = {
+                            patronyme: row[0] || '',
+                            procedure: row[1] || '',
+                            chefs: row[2] || '',
+                            tj: row[3] || '',
+                            dateReception: row[4] ? new Date(row[4]) : new Date(),
+                            status: 'attente'
+                        };
+                        attentes.push(attente);
+                    } catch (e) {
+                        // Ignorer les erreurs
+                    }
+                }
+            }
+            
+            return attentes;
+        }
+
+        // Document Analysis (Publipostage)
+        async function analyzeDocument() {
+            if (!currentFile) return;
+
+            showStatus('Analyse du document en cours...', 'info');
+
+            try {
+                const arrayBuffer = await currentFile.arrayBuffer();
+                const result = await mammoth.extractRawText({ arrayBuffer });
+                documentContent = result.value;
+
+                // Détection des variables format <<VARIABLE>>
+                const variableRegex = /<<([^>]+)>>/g;
+                const matches = [...documentContent.matchAll(variableRegex)];
+                detectedVariables = [...new Set(matches.map(match => match[1].trim()))];
+
+                displayVariables();
+                showStatus(`${detectedVariables.length} variable(s) détectée(s) dans le document.`, 'success');
+                document.getElementById('generateBtn').disabled = detectedVariables.length === 0;
+
+            } catch (error) {
+                console.error('Erreur lors de l\'analyse:', error);
+                showStatus('Erreur lors de l\'analyse du document.', 'error');
+            }
+        }
+
+        function displayVariables() {
+            const container = document.getElementById('variablesSection');
+            
+            if (detectedVariables.length === 0) {
+                container.innerHTML = '<div class="variables-empty">Aucune variable détectée dans le document. Les variables doivent être au format &lt;&lt;VARIABLE&gt;&gt;</div>';
+                return;
+            }
+
+            let html = '';
+            detectedVariables.forEach(variable => {
+                html += `
+                    <div class="variable-item">
+                        <div class="variable-label">&lt;&lt;${variable}&gt;&gt;</div>
+                        <input type="text" class="variable-input" data-variable="${variable}" 
+                               placeholder="Valeur de remplacement pour ${variable}">
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // Document Generation
+        async function generateDocument() {
+            if (!currentFile || detectedVariables.length === 0) return;
+
+            showStatus('Génération du document en cours...', 'info');
+
+            try {
+                // Collecte des valeurs de substitution
+                const substitutions = {};
+                let hasEmptyValues = false;
+
+                detectedVariables.forEach(variable => {
+                    const input = document.querySelector(`[data-variable="${variable}"]`);
+                    const value = input.value.trim();
+                    if (!value) {
+                        hasEmptyValues = true;
+                        input.style.borderColor = 'var(--danger-color)';
+                    } else {
+                        input.style.borderColor = 'var(--border-color)';
+                        substitutions[variable] = value;
+                    }
+                });
+
+                if (hasEmptyValues) {
+                    showStatus('Veuillez remplir toutes les variables.', 'error');
+                    return;
+                }
+
+                // Lecture du fichier Word original
+                const arrayBuffer = await currentFile.arrayBuffer();
+                const result = await mammoth.extractRawText({ arrayBuffer });
+                let processedContent = result.value;
+
+                // Substitution des variables
+                detectedVariables.forEach(variable => {
+                    const regex = new RegExp(`<<${variable}>>`, 'g');
+                    processedContent = processedContent.replace(regex, substitutions[variable]);
+                });
+
+                // Création du nouveau document
+                const doc = new docx.Document({
+                    sections: [{
+                        properties: {},
+                        children: processedContent.split('\n').map(line => 
+                            new docx.Paragraph({
+                                text: line,
+                                spacing: { after: 200 }
+                            })
+                        )
+                    }]
+                });
+
+                // Génération et téléchargement
+                const blob = await docx.Packer.toBlob(doc);
+                const originalName = currentFile.name.replace(/\.docx?$/i, '');
+                const newFileName = `${originalName}_traite_${new Date().toISOString().slice(0,10)}.docx`;
+                
+                saveAs(blob, newFileName);
+                showStatus(`Document généré avec succès : ${newFileName}`, 'success');
+
+            } catch (error) {
+                console.error('Erreur lors de la génération:', error);
+                showStatus('Erreur lors de la génération du document.', 'error');
+            }
+        }
+
+        // Calendar Functions
+        function setupCalendarFilters() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    activeFilter = this.dataset.filter;
+                    renderCalendar();
+                });
+            });
+        }
+
+        function changeMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        }
+
+        function renderCalendar() {
+            if (!expertisesData) return;
+
+            const monthNames = [
+                'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+                'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+            ];
+
+            const dayNames = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+            
+            document.getElementById('calendarTitle').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay());
+
+            let html = '';
+            
+            // Headers
+            dayNames.forEach(day => {
+                html += `<div class="calendar-day-header">${day}</div>`;
+            });
+
+            // Calendar days
+            for (let date = new Date(startDate); date <= new Date(startDate.getTime() + 41 * 24 * 60 * 60 * 1000); date.setDate(date.getDate() + 1)) {
+                const isCurrentMonth = date.getMonth() === currentMonth;
+                const isToday = date.toDateString() === new Date().toDateString();
+                const dayExpertises = getExpertisesForDate(date);
+
+                let dayClass = 'calendar-day';
+                if (!isCurrentMonth) dayClass += ' other-month';
+                if (isToday) dayClass += ' today';
+
+                html += `
+                    <div class="${dayClass}" data-date="${date.toISOString().split('T')[0]}">
+                        <div class="day-number">${date.getDate()}</div>
+                        ${dayExpertises.map(exp => renderExpertiseItem(exp)).join('')}
+                    </div>
+                `;
+            }
+
+            document.getElementById('calendarGrid').innerHTML = html;
+        }
+
+        function getExpertisesForDate(date) {
+            if (!expertisesData) return [];
+
+            const dateStr = date.toDateString();
+            const expertises = [];
+
+            // Expertises réalisées
+            expertisesData.listing.forEach(exp => {
+                if (exp.date.toDateString() === dateStr) {
+                    if (activeFilter === 'all' || activeFilter === 'passees') {
+                        expertises.push(exp);
+                    }
+                }
+            });
+
+            // Expertises programmées (avec date OCE)
+            expertisesData.listing.forEach(exp => {
+                if (exp.dateOce && exp.dateOce.toDateString() === dateStr) {
+                    if (activeFilter === 'all' || activeFilter === 'programmees') {
+                        expertises.push({
+                            ...exp,
+                            status: 'programmee'
+                        });
+                    }
+                }
+            });
+
+            return expertises;
+        }
+
+        function renderExpertiseItem(expertise) {
+            const statusClass = expertise.status === 'attente' ? 'attente' : 
+                               expertise.status === 'programmee' ? 'warning' : 'passe';
+            
+            const title = `${expertise.patronyme} - ${expertise.lieu || expertise.tj}`;
+            
+            return `
+                <div class="expertise-item ${statusClass}" 
+                     title="${title}&#10;${expertise.chefs}&#10;Procédure: ${expertise.procedure}"
+                     onclick="showExpertiseDetails('${expertise.patronyme}', '${expertise.procedure}')">
+                    ${expertise.patronyme}
+                </div>
+            `;
+        }
+
+        function showExpertiseDetails(patronyme, procedure) {
+            // Simple alert for now - could be enhanced with a modal
+            const expertise = expertisesData.listing.find(exp => 
+                exp.patronyme === patronyme && exp.procedure === procedure
+            );
+            
+            if (expertise) {
+                const details = `
+Nom: ${expertise.patronyme}
+Lieu: ${expertise.lieu}
+TJ: ${expertise.tj}
+Procédure: ${expertise.procedure}
+Chefs: ${expertise.chefs}
+OPJ/Greffier: ${expertise.opj}
+Substitut: ${expertise.substitut}
+                `.trim();
+                
+                alert(details);
+            }
+        }
+
+        // Utility Functions
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.className = `status-message status-${type}`;
+            statusEl.textContent = message;
+            statusEl.style.display = 'block';
+            
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 5000);
+        }
+
+        function showCalendarStatus(message, type) {
+            const statusEl = document.getElementById('calendarStatusMessage');
+            statusEl.className = `status-message status-${type}`;
+            statusEl.textContent = message;
+            statusEl.style.display = 'block';
+            
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 5000);
+        }
+
+        // PWA Installation
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install button
+            const installButton = document.createElement('button');
+            installButton.textContent = '📱 Installer';
+            installButton.className = 'btn btn-primary';
+            installButton.style.position = 'fixed';
+            installButton.style.bottom = '20px';
+            installButton.style.right = '20px';
+            installButton.style.zIndex = '1000';
+            installButton.style.borderRadius = '50px';
+            installButton.style.padding = '12px 20px';
+            installButton.style.fontSize = '14px';
+            
+            installButton.addEventListener('click', () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Application installée');
+                    }
+                    deferredPrompt = null;
+                    installButton.remove();
+                });
+            });
+            
+            document.body.appendChild(installButton);
+            
+            // Auto-hide after 10 seconds
+            setTimeout(() => {
+                if (installButton.parentNode) {
+                    installButton.remove();
+                }
+            }, 10000);
+        });
+
+        // Keyboard Shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Prevent default browser shortcuts that might interfere
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'o':
+                        e.preventDefault();
+                        if (document.getElementById('publipostage').classList.contains('active')) {
+                            document.getElementById('fileInput').click();
+                        } else {
+                            document.getElementById('excelFileInput').click();
+                        }
+                        break;
+                    case '1':
+                        e.preventDefault();
+                        switchTab('publipostage');
+                        break;
+                    case '2':
+                        e.preventDefault();
+                        switchTab('calendrier');
+                        break;
+                }
+            }
+        });
+
+        // Touch and Gesture Support for iPad
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchend', function(e) {
+            if (!touchStartX || !touchStartY) return;
+
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+            
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+
+            // Horizontal swipe detection
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    // Swipe left - next month in calendar
+                    if (document.getElementById('calendrier').classList.contains('active')) {
+                        changeMonth(1);
+                    }
+                } else {
+                    // Swipe right - previous month in calendar
+                    if (document.getElementById('calendrier').classList.contains('active')) {
+                        changeMonth(-1);
+                    }
+                }
+            }
+
+            touchStartX = 0;
+            touchStartY = 0;
+        });
+
+        // Enhanced iPad Pro and iPhone optimizations
+        function optimizeForDevice() {
+            const isIPad = /iPad/.test(navigator.userAgent) || 
+                          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            const isIPhone = /iPhone/.test(navigator.userAgent);
+            
+            if (isIPad) {
+                document.body.classList.add('ipad-device');
+                // Enhanced touch targets for iPad
+                document.documentElement.style.setProperty('--touch-target-size', '48px');
+            }
+            
+            if (isIPhone) {
+                document.body.classList.add('iphone-device');
+                // Smaller, more compact interface for iPhone
+                document.documentElement.style.setProperty('--touch-target-size', '44px');
+            }
+        }
+
+        // Initialize device optimizations
+        optimizeForDevice();
+
+        // Improved error handling for mobile
+        window.addEventListener('error', function(e) {
+            console.error('Application error:', e.error);
+            showStatus('Une erreur est survenue. Veuillez recharger l\'application.', 'error');
+        });
+
+        // Performance optimization for large Excel files
+        function processLargeExcelFile(data, chunkSize = 1000) {
+            return new Promise((resolve) => {
+                const result = [];
+                let index = 0;
+                
+                function processChunk() {
+                    const endIndex = Math.min(index + chunkSize, data.length);
+                    
+                    for (let i = index; i < endIndex; i++) {
+                        // Process row data here
+                        if (data[i] && data[i][0]) {
+                            try {
+                                result.push(processRowData(data[i]));
+                            } catch (e) {
+                                // Skip problematic rows
+                            }
+                        }
+                    }
+                    
+                    index = endIndex;
+                    
+                    if (index < data.length) {
+                        // Use requestAnimationFrame for better performance
+                        requestAnimationFrame(processChunk);
+                    } else {
+                        resolve(result);
+                    }
+                }
+                
+                processChunk();
+            });
+        }
+
+        function processRowData(row) {
+            return {
+                date: row[0] ? new Date(row[0]) : null,
+                lieu: row[1] || '',
+                opj: row[2] || '',
+                substitut: row[3] || '',
+                tj: row[4] || '',
+                patronyme: row[5] || '',
+                ddn: row[6] || '',
+                age: row[7] || '',
+                procedure: row[10] || '',
+                chefs: row[12] || '',
+                dateOce: row[13] ? new Date(row[13]) : null,
+                limiteOce: row[14] ? new Date(row[14]) : null,
+                type: row[15] || '',
+                status: 'passe'
+            };
+        }
+
+        // Auto-save functionality for forms
+        function saveFormData() {
+            const formData = {};
+            document.querySelectorAll('.variable-input').forEach(input => {
+                if (input.value.trim()) {
+                    formData[input.dataset.variable] = input.value.trim();
+                }
+            });
+            
+            if (Object.keys(formData).length > 0) {
+                localStorage.setItem('expertises_current_form', JSON.stringify(formData));
+            }
+        }
+
+        function loadFormData() {
+            const savedData = localStorage.getItem('expertises_current_form');
+            if (savedData) {
+                try {
+                    const formData = JSON.parse(savedData);
+                    Object.keys(formData).forEach(variable => {
+                        const input = document.querySelector(`[data-variable="${variable}"]`);
+                        if (input) {
+                            input.value = formData[variable];
+                        }
+                    });
+                } catch (e) {
+                    console.error('Error loading form data:', e);
+                }
+            }
+        }
+
+        // Auto-save on input change
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('variable-input')) {
+                debounce(saveFormData, 1000)();
+            }
+        });
+
+        // Debounce function for performance
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Initialize form data loading
+        setTimeout(loadFormData, 100);
