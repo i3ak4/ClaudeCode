@@ -589,6 +589,79 @@
             background: var(--danger);
             color: white;
         }
+        
+        .list-group-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            padding: 16px 0 8px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Checkbox styles */
+        .checkbox-container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 24px;
+            width: 24px;
+            background-color: #eee;
+            border-radius: 4px;
+        }
+
+        .checkbox-container:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: var(--primary);
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .checkbox-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .checkbox-container .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
     </style>
 </head>
 <body>
@@ -663,12 +736,17 @@
                 </div>
             </section>
 
-            <!-- En Attente Section -->
+            <!-- En Attentes Section -->
             <section class="section" id="attente">
                 <div class="card">
-                    <h2 class="card-header">Expertises en attente</h2>
+                    <h2 class="card-header">Expertises en attentes</h2>
                     <div class="form-group">
                         <input type="text" class="form-input" id="searchAttente" placeholder="Rechercher par nom..." onkeyup="searchAttente()">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-secondary btn-block" onclick="showModal('lieuFilterModal')">
+                            Filtrer par lieu
+                        </button>
                     </div>
                     <div id="attenteList" style="margin-top: 20px;">
                         <div class="empty-state">
@@ -753,7 +831,7 @@
                 </div>
                 <div class="nav-item" onclick="showSection('attente')">
                     <div class="nav-icon">⏳</div>
-                    <div class="nav-label">En attente</div>
+                    <div class="nav-label">En attentes</div>
                 </div>
                 <div class="nav-item" onclick="showSection('documents')">
                     <div class="nav-icon">📄</div>
@@ -918,6 +996,20 @@
                 </div>
             </div>
         </div>
+
+        <!-- Lieu Filter Modal -->
+        <div class="modal" id="lieuFilterModal">
+            <div class="modal-content">
+                <span class="modal-close" onclick="closeModal('lieuFilterModal')">&times;</span>
+                <h2 class="modal-header">Filtrer par lieu</h2>
+                <div id="lieuCheckboxes" class="form-group">
+                    <!-- Checkboxes will be populated here -->
+                </div>
+                <button class="btn btn-primary btn-block" onclick="applyLieuFilter()">
+                    Appliquer le filtre
+                </button>
+            </div>
+        </div>
     </div>
     
     <script>
@@ -979,6 +1071,7 @@
             updateRecentExpertises();
             updateExpertisesList();
             updateAttenteList();
+            updateLieuCheckboxes();
             updateDocumentsList();
             updateCalendar();
             updateDocumentExpertiseSelect();
@@ -1195,6 +1288,7 @@
         }
 
         // Update attente list
+        let selectedLieux = [];
         function updateAttenteList(searchTerm = '') {
             const container = document.getElementById('attenteList');
             const pendingExpertises = appState.data.expertises.filter(exp => exp.status === 'pending');
@@ -1216,17 +1310,102 @@
                     (exp.patientName || '').toLowerCase().includes(searchTerm)
                 );
             }
+            if (selectedLieux.length > 0) {
+                filteredExpertises = filteredExpertises.filter(exp => selectedLieux.includes(exp.lieu));
+            }
 
-            container.innerHTML = filteredExpertises.map(exp => `
+            const extractLimiteOCE = (notes) => {
+                if (!notes) return null;
+                const regex = new RegExp(`Limite_OCE:\s*([^\n]+)`);
+                const match = notes.match(regex);
+                if (!match) return null;
+                // Handle both date string and Excel serial number
+                let dateValue = match[1];
+                if (!isNaN(dateValue) && !isNaN(parseFloat(dateValue))) {
+                    // Assume Excel serial number if it's a number
+                    return new Date(0, 0, dateValue - 1);
+                } else {
+                    // Assume YYYY-MM-DD format
+                    return new Date(dateValue);
+                }
+            };
+
+            if (searchTerm || selectedLieux.length > 0) {
+                // Sort by urgency when a filter is active
+                filteredExpertises.sort((a, b) => {
+                    const dateA = extractLimiteOCE(a.notes);
+                    const dateB = extractLimiteOCE(b.notes);
+                    if (dateA && dateB) return dateA - dateB;
+                    if (dateA) return -1;
+                    if (dateB) return 1;
+                    return 0;
+                });
+                container.innerHTML = filteredExpertises.map(exp => createExpertiseHTML(exp)).join('');
+            } else {
+                // Group by lieu and sort by urgency within each group
+                const groupedByLieu = filteredExpertises.reduce((acc, exp) => {
+                    const lieu = exp.lieu || 'Non spécifié';
+                    if (!acc[lieu]) acc[lieu] = [];
+                    acc[lieu].push(exp);
+                    return acc;
+                }, {});
+
+                Object.keys(groupedByLieu).forEach(lieu => {
+                    groupedByLieu[lieu].sort((a, b) => {
+                        const dateA = extractLimiteOCE(a.notes);
+                        const dateB = extractLimiteOCE(b.notes);
+                        if (dateA && dateB) return dateA - dateB;
+                        if (dateA) return -1;
+                        if (dateB) return 1;
+                        return 0;
+                    });
+                });
+                
+                const sortedLieux = Object.keys(groupedByLieu).sort();
+
+                let html = '';
+                sortedLieux.forEach(lieu => {
+                    html += `<div class="list-group-header">${lieu}</div>`;
+                    html += groupedByLieu[lieu].map(exp => createExpertiseHTML(exp)).join('');
+                });
+                container.innerHTML = html;
+            }
+        }
+
+        function createExpertiseHTML(exp) {
+            const extractLimiteOCE = (notes) => {
+                if (!notes) return '';
+                const regex = new RegExp(`Limite_OCE:\s*([^\n]+)`);
+                const match = notes.match(regex);
+                if (!match) return '';
+                let dateValue = match[1];
+                let date;
+                if (!isNaN(dateValue) && !isNaN(parseFloat(dateValue))) {
+                    date = new Date(0, 0, dateValue - 1); // Excel serial number
+                } else {
+                    date = new Date(dateValue); // YYYY-MM-DD format
+                }
+                
+                const today = new Date();
+                const diffTime = date - today;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                let color = 'var(--text-secondary)';
+                if (diffDays <= 7) color = 'var(--danger)';
+                else if (diffDays <= 30) color = 'var(--warning)';
+                return `<span style="color: ${color};">Limite OCE: ${date.toLocaleDateString('fr-FR')}</span>`;
+            };
+
+            return `
                 <div class="list-item" onclick="viewExpertise(${exp.id})">
                     <div class="list-item-header">${exp.patientName}</div>
                     <div class="list-item-details">
                         Lieu: ${exp.lieu || 'N/A'}<br>
                         Magistrat: ${exp.magistrat || 'N/A'}<br>
-                        TJ: ${exp.TJ || 'N/A'}
+                        TJ: ${exp.TJ || 'N/A'}<br>
+                        ${extractLimiteOCE(exp.notes)}
                     </div>
                 </div>
-            `).join('');
+            `;
         }
         
         // Update document expertise select
@@ -1599,32 +1778,59 @@
         
         
         // View expertise
-        let currentExpertiseId = null;
         function viewExpertise(id) {
             const expertise = appState.data.expertises.find(e => e.id === id);
             if (!expertise) return;
             
             currentExpertiseId = id;
             
+            const extractField = (fieldName, notes) => {
+                if (!notes) return '';
+                const regex = new RegExp(`${fieldName}:\s*([^\n]+)`);
+                const match = notes.match(regex);
+                return match ? match[1] : '';
+            };
+
+            const formatDate = (dateStr) => {
+                if (!dateStr) return '';
+                let date;
+                if (!isNaN(dateStr) && !isNaN(parseFloat(dateStr))) {
+                    date = new Date(0, 0, dateStr - 1); // Excel serial number
+                } else {
+                    date = new Date(dateStr); // YYYY-MM-DD format
+                }
+                return date.toLocaleDateString('fr-FR');
+            };
+
+            const notes = expertise.notes || '';
+            const opjGreffier = extractField('OPJ/Greffier', notes);
+            const age = extractField('Age', notes);
+            const profession = extractField('Profession', notes);
+            const domicile = extractField('Domicile', notes);
+            const procedureBis = extractField('Procédure_bis', notes);
+            const chefs = extractField('Chefs', notes);
+            const dateOCE = extractField('Date_OCE', notes);
+            const limiteOCE = extractField('Limite_OCE', notes);
+
             const detailHtml = `
                 <div style="display: grid; gap: 16px;">
                     <div>
-                        <div style="color: var(--text-secondary); font-size: 12px;">Patient</div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">Identité</div>
                         <div style="font-weight: 600; font-size: 18px;">${expertise.patientName}</div>
                     </div>
                     ${expertise.patientDob ? `
                     <div>
                         <div style="color: var(--text-secondary); font-size: 12px;">Date de naissance</div>
-                        <div>${new Date(expertise.patientDob).toLocaleDateString('fr-FR')}</div>
+                        <div>${formatDate(expertise.patientDob)}</div>
                     </div>` : ''}
                     ${expertise.expertiseDate ? `
                     <div>
                         <div style="color: var(--text-secondary); font-size: 12px;">Date d'expertise</div>
-                        <div>${new Date(expertise.expertiseDate).toLocaleDateString('fr-FR')}</div>
+                        <div>${formatDate(expertise.expertiseDate)}</div>
                     </div>` : `
                     <div>
                         <div style="color: var(--text-secondary); font-size: 12px;">Statut</div>
-                        <div>En attente</div>
+                        <div>En attentes</div>
                     </div>`}
                     ${expertise.lieu ? `
                     <div>
@@ -1636,15 +1842,55 @@
                         <div style="color: var(--text-secondary); font-size: 12px;">Magistrat</div>
                         <div>${expertise.magistrat}</div>
                     </div>` : ''}
+                    ${expertise.TJ ? `
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">TJ</div>
+                        <div>${expertise.TJ}</div>
+                    </div>` : ''}
                     ${expertise.procedure ? `
                     <div>
                         <div style="color: var(--text-secondary); font-size: 12px;">N° Procédure</div>
                         <div>${expertise.procedure}</div>
                     </div>` : ''}
-                    ${expertise.notes ? `
+                    ${procedureBis ? `
                     <div>
-                        <div style="color: var(--text-secondary); font-size: 12px;">Notes</div>
-                        <div style="white-space: pre-wrap;">${expertise.notes}</div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">N° Procédure bis</div>
+                        <div>${procedureBis}</div>
+                    </div>` : ''}
+                    ${opjGreffier ? `
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">OPJ/Greffier</div>
+                        <div>${opjGreffier}</div>
+                    </div>` : ''}
+                    ${age ? `
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">Âge</div>
+                        <div>${age}</div>
+                    </div>` : ''}
+                    ${profession ? `
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">Profession</div>
+                        <div>${profession}</div>
+                    </div>` : ''}
+                    ${domicile ? `
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">Domicile</div>
+                        <div>${domicile}</div>
+                    </div>` : ''}
+                    ${chefs ? `
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">Chefs</div>
+                        <div>${chefs}</div>
+                    </div>` : ''}
+                    ${dateOCE ? `
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">Date OCE</div>
+                        <div>${formatDate(dateOCE)}</div>
+                    </div>` : ''}
+                    ${limiteOCE ? `
+                    <div>
+                        <div style="color: var(--text-secondary); font-size: 12px;">Limite OCE</div>
+                        <div>${formatDate(limiteOCE)}</div>
                     </div>` : ''}
                 </div>
             `;
@@ -1797,8 +2043,35 @@
         }
 
         function searchAttente() {
-            const searchTerm = document.getElementById('searchAttente').value.toLowerCase();
-            updateAttenteList(searchTerm);
+            updateAttenteList(document.getElementById('searchAttente').value.toLowerCase());
+        }
+
+        function applyLieuFilter() {
+            selectedLieux = [];
+            document.querySelectorAll('#lieuCheckboxes input[type="checkbox"]:checked').forEach(checkbox => {
+                selectedLieux.push(checkbox.value);
+            });
+            updateAttenteList(document.getElementById('searchAttente').value.toLowerCase());
+            closeModal('lieuFilterModal');
+        }
+
+        function updateLieuCheckboxes() {
+            const container = document.getElementById('lieuCheckboxes');
+            const pendingExpertises = appState.data.expertises.filter(exp => exp.status === 'pending');
+            const lieux = [...new Set(pendingExpertises.map(exp => exp.lieu).filter(Boolean))].sort();
+            
+            let html = '';
+            lieux.forEach(lieu => {
+                const isChecked = selectedLieux.includes(lieu) ? 'checked' : '';
+                html += `
+                    <label class="checkbox-container">
+                        <input type="checkbox" value="${lieu}" ${isChecked}>
+                        ${lieu}
+                        <span class="checkmark"></span>
+                    </label>
+                `;
+            });
+            container.innerHTML = html;
         }
         
         // Delete expertise
