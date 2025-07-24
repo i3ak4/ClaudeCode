@@ -524,18 +524,32 @@
             border-radius: 12px;
             padding: 16px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: var(--primary);
+            height: 32px; /* Fixed height for alignment */
         }
         
         .stat-value {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             color: var(--primary);
             margin-bottom: 4px;
         }
         
         .stat-label {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-secondary);
+            height: 2.5em; /* Ensure labels can wrap to two lines without layout shift */
+            display: flex;
+            align-items: center;
         }
         
         /* Badge */
@@ -639,6 +653,23 @@
                     </div>
                 </div>
             </section>
+
+            <!-- En Attente Section -->
+            <section class="section" id="attente">
+                <div class="card">
+                    <h2 class="card-header">Expertises en attente</h2>
+                    <div class="form-group">
+                        <input type="text" class="form-input" id="searchAttente" placeholder="Rechercher par nom..." onkeyup="searchAttente()">
+                    </div>
+                    <div id="attenteList" style="margin-top: 20px;">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">⏳</div>
+                            <div class="empty-state-title">Aucune expertise en attente</div>
+                            <div class="empty-state-subtitle">Les expertises en attente d'importation apparaîtront ici.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
             
             <!-- Publipostage Section -->
             <section class="section" id="documents">
@@ -689,6 +720,15 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Statistics Section -->
+            <section class="section" id="statistics">
+                <div class="card">
+                    <div class="stats-grid" id="statsContainer" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
+                        <!-- All stats will be rendered here -->
+                    </div>
+                </div>
+            </section>
         </main>
         
         <!-- Bottom Navigation -->
@@ -702,6 +742,10 @@
                     <div class="nav-icon">📋</div>
                     <div class="nav-label">Expertises</div>
                 </div>
+                <div class="nav-item" onclick="showSection('attente')">
+                    <div class="nav-icon">⏳</div>
+                    <div class="nav-label">En attente</div>
+                </div>
                 <div class="nav-item" onclick="showSection('documents')">
                     <div class="nav-icon">📄</div>
                     <div class="nav-label">Publipostage</div>
@@ -709,6 +753,10 @@
                 <div class="nav-item" onclick="showSection('calendar')">
                     <div class="nav-icon">📅</div>
                     <div class="nav-label">Calendrier</div>
+                </div>
+                <div class="nav-item" onclick="showSection('statistics')">
+                    <div class="nav-icon">📊</div>
+                    <div class="nav-label">Statistiques</div>
                 </div>
             </div>
         </nav>
@@ -921,9 +969,11 @@
         function updateUI() {
             updateRecentExpertises();
             updateExpertisesList();
+            updateAttenteList();
             updateDocumentsList();
             updateCalendar();
             updateDocumentExpertiseSelect();
+            updateStatistics();
         }
         
         // Show section
@@ -1080,26 +1130,25 @@
         // Update expertises list
         function updateExpertisesList(searchTerm = '') {
             const container = document.getElementById('expertisesList');
+            const completedExpertises = appState.data.expertises.filter(exp => exp.status === 'completed');
             
-            if (appState.data.expertises.length === 0) {
+            if (completedExpertises.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">📁</div>
-                        <div class="empty-state-title">Aucune expertise</div>
-                        <div class="empty-state-subtitle">Base de données vide</div>
+                        <div class="empty-state-title">Aucune expertise terminée</div>
+                        <div class="empty-state-subtitle">Les expertises terminées apparaîtront ici.</div>
                     </div>
                 `;
                 return;
             }
             
             // Filter expertises based on search term
-            let filteredExpertises = appState.data.expertises;
+            let filteredExpertises = completedExpertises;
             if (searchTerm) {
-                filteredExpertises = appState.data.expertises.filter(exp => 
+                filteredExpertises = completedExpertises.filter(exp => 
                     (exp.patientName || '').toLowerCase().includes(searchTerm) ||
-                    (exp.magistrat || '').toLowerCase().includes(searchTerm) ||
-                    (exp.procedure || '').toLowerCase().includes(searchTerm) ||
-                    (exp.lieu || '').toLowerCase().includes(searchTerm)
+                    (exp.magistrat || '').toLowerCase().includes(searchTerm)
                 );
             }
             
@@ -1131,6 +1180,41 @@
                         ${exp.expertiseDate ? new Date(exp.expertiseDate).toLocaleDateString('fr-FR') : 'En attente'} - 
                         ${exp.lieu ? exp.lieu : 'Non précisé'}
                         ${exp.magistrat ? ' - ' + exp.magistrat : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update attente list
+        function updateAttenteList(searchTerm = '') {
+            const container = document.getElementById('attenteList');
+            const pendingExpertises = appState.data.expertises.filter(exp => exp.status === 'pending');
+
+            if (pendingExpertises.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⏳</div>
+                        <div class="empty-state-title">Aucune expertise en attente</div>
+                        <div class="empty-state-subtitle">Les expertises en attente d'importation apparaîtront ici.</div>
+                    </div>
+                `;
+                return;
+            }
+
+            let filteredExpertises = pendingExpertises;
+            if (searchTerm) {
+                filteredExpertises = pendingExpertises.filter(exp => 
+                    (exp.patientName || '').toLowerCase().includes(searchTerm)
+                );
+            }
+
+            container.innerHTML = filteredExpertises.map(exp => `
+                <div class="list-item" onclick="viewExpertise(${exp.id})">
+                    <div class="list-item-header">${exp.patientName}</div>
+                    <div class="list-item-details">
+                        Lieu: ${exp.lieu || 'N/A'}<br>
+                        Magistrat: ${exp.magistrat || 'N/A'}<br>
+                        TJ: ${exp.TJ || 'N/A'}
                     </div>
                 </div>
             `).join('');
@@ -1442,6 +1526,67 @@
         }
         
         // Update stats
+        function updateStatistics() {
+            const container = document.getElementById('statsContainer');
+            const completedExpertises = appState.data.expertises.filter(exp => exp.status === 'completed');
+
+            if (completedExpertises.length === 0) {
+                container.innerHTML = '<p>Aucune expertise terminée pour le moment.</p>';
+                return;
+            }
+
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            const currentMonth = today.getMonth();
+            
+            const expertisesThisYear = completedExpertises.filter(exp => new Date(exp.expertiseDate).getFullYear() === currentYear);
+            const expertisesThisMonth = expertisesThisYear.filter(exp => new Date(exp.expertiseDate).getMonth() === currentMonth);
+
+            const totalExpertises = completedExpertises.length;
+            const totalThisYear = expertisesThisYear.length;
+            const totalThisMonth = expertisesThisMonth.length;
+
+            const byTJ = expertisesThisYear.reduce((acc, exp) => {
+                const tj = exp.TJ || 'Non spécifié';
+                acc[tj] = (acc[tj] || 0) + 1;
+                return acc;
+            }, {});
+
+            let statsHtml = `
+                <div class="stat-card">
+                    <div class="stat-icon">🗂️</div>
+                    <div class="stat-value">${totalExpertises}</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🗓️</div>
+                    <div class="stat-value">${totalThisYear}</div>
+                    <div class="stat-label">Cette année</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-value">${totalThisMonth}</div>
+                    <div class="stat-label">Ce mois-ci</div>
+                </div>
+            `;
+
+            const tjsToShow = ['Paris', 'Créteil', 'Bobigny'];
+
+            statsHtml += `<div style="grid-column: 1 / -1; height: 1px; background-color: var(--border); margin: 16px 0;"></div>`; // Separator
+
+            tjsToShow.forEach(tjName => {
+                const count = byTJ[tjName] || 0;
+                statsHtml += `
+                    <div class="stat-card">
+                        <div class="stat-icon">🏛️</div>
+                        <div class="stat-value">${count}</div>
+                        <div class="stat-label">TJ de ${tjName}</div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = statsHtml;
+        }
         
         
         // View expertise
@@ -1640,6 +1785,11 @@
         function searchExpertises() {
             const searchTerm = document.getElementById('searchExpertises').value.toLowerCase();
             updateExpertisesList(searchTerm);
+        }
+
+        function searchAttente() {
+            const searchTerm = document.getElementById('searchAttente').value.toLowerCase();
+            updateAttenteList(searchTerm);
         }
         
         // Delete expertise
