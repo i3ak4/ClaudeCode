@@ -1614,7 +1614,15 @@
             // Format dates
             const formatDate = (dateStr) => {
                 if (!dateStr) return '';
-                return new Date(dateStr).toLocaleDateString('fr-FR');
+                let date;
+                // Check if it's an Excel serial number (as string or number)
+                if (!isNaN(dateStr) && !isNaN(parseFloat(dateStr))) {
+                    date = new Date(0, 0, parseFloat(dateStr) - 1); // Excel serial number to Date object
+                } else {
+                    date = new Date(dateStr); // Standard date string (YYYY-MM-DD)
+                }
+                if (isNaN(date.getTime())) return ''; // Return empty if date is invalid
+                return date.toLocaleDateString('fr-FR');
             };
             
             // Build template data matching CrimiTrack's structure
