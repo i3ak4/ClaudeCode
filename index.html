@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-    <title>CrimiTrack Mobile</title>
+    <title>CrimiTrack</title>
     <link rel="icon" href="data:,">
     
     <!-- SheetJS Library for Excel import -->
@@ -230,9 +230,10 @@
         
         .nav-items {
             display: flex;
+            flex-wrap: nowrap;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
-            padding: 8px 0;
+            padding: 8px 10px;
             scrollbar-width: none; /* Firefox */
         }
 
@@ -245,7 +246,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 8px 16px;
+            padding: 8px;
+            width: 90px; /* Give a fixed width to each item */
             cursor: pointer;
             transition: all 0.2s;
             color: var(--text-secondary);
@@ -595,8 +597,8 @@
             <div class="header-content">
                 <div class="header-logo">⚖️</div>
                 <div class="header-text">
-                    <h1>CrimiTrack Mobile</h1>
-                    <div class="header-subtitle">Version simplifiée</div>
+                    <h1>CrimiTrack</h1>
+                    <div class="header-subtitle">Version mobile</div>
                 </div>
             </div>
         </header>
