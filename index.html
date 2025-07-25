@@ -765,7 +765,7 @@
                     
                     <div class="form-group">
                         <label class="form-label">Modèle</label>
-                        <input type="file" class="form-input" id="templateFile" accept=".docx,.doc" onchange="handleTemplateSelect()">
+                        <input type="file" class="form-input" id="templateFile" accept=".docx,.doc" onchange="handleTemplateSelect()" multiple>
                         <small class="form-help">Sélectionnez un modèle Word (.docx)</small>
                     </div>
                     
@@ -1431,38 +1431,52 @@
             select.innerHTML = options.join('');
         }
         
-        // Global variable to store the selected template
-        let selectedTemplate = null;
+        // Global variable to store the selected templates
+        let selectedTemplates = [];
         
         // Handle template file selection
         function handleTemplateSelect() {
             const fileInput = document.getElementById('templateFile');
-            const file = fileInput.files[0];
+            const files = fileInput.files;
             const generateBtn = document.getElementById('generateBtn');
             
-            if (file && file.name.endsWith('.docx')) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    selectedTemplate = e.target.result;
-                    generateBtn.disabled = false;
-                    showToast('Modèle chargé avec succès');
-                };
-                reader.readAsArrayBuffer(file);
-            } else {
-                selectedTemplate = null;
-                generateBtn.disabled = true;
-                if (file) {
-                    showToast('Veuillez sélectionner un fichier .docx');
+            selectedTemplates = []; // Clear previous selections
+            
+            if (files.length > 0) {
+                let filesRead = 0;
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    if (file.name.endsWith('.docx')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            selectedTemplates.push({ name: file.name, content: e.target.result });
+                            filesRead++;
+                            if (filesRead === files.length) {
+                                generateBtn.disabled = false;
+                                showToast(`${files.length} modèle(s) chargé(s) avec succès`);
+                            }
+                        };
+                        reader.readAsArrayBuffer(file);
+                    } else {
+                        showToast(`Le fichier ${file.name} n'est pas un fichier .docx et sera ignoré.`);
+                        filesRead++; // Still count it as read to enable button if other files are valid
+                        if (filesRead === files.length) {
+                            generateBtn.disabled = false;
+                        }
+                    }
                 }
+            } else {
+                generateBtn.disabled = true;
+                showToast('Veuillez sélectionner un ou plusieurs fichiers .docx');
             }
         }
         
         // Generate document
-        function generateDocument() {
+        async function generateDocument() {
             const expertiseId = document.getElementById('docExpertise').value;
             
-            if (!selectedTemplate) {
-                showToast('Veuillez sélectionner un modèle');
+            if (selectedTemplates.length === 0) {
+                showToast('Veuillez sélectionner un ou plusieurs modèles');
                 return;
             }
             
@@ -1478,110 +1492,102 @@
                 return;
             }
             
-            try {
-                // Vérifier que les bibliothèques sont chargées
-                if (typeof PizZip === 'undefined' || typeof docxtemplater === 'undefined') {
-                    showToast('Les bibliothèques de publipostage ne sont pas chargées');
-                    return;
-                }
-                
-                // Préparer les données pour le publipostage
-                const templateData = prepareTemplateData(expertise);
-                
-                // Debug: afficher les données dans la console
-                console.log('Données du publipostage:', templateData);
-                
-                // Créer le zip et convertir les balises
-                const zip = new PizZip(selectedTemplate);
-                
-                // Convertir les balises Word «» en balises docxtemplater {}
+            // Vérifier que les bibliothèques sont chargées
+            if (typeof PizZip === 'undefined' || typeof docxtemplater === 'undefined') {
+                showToast('Les bibliothèques de publipostage ne sont pas chargées');
+                return;
+            }
+            
+            // Préparer les données pour le publipostage
+            const templateData = prepareTemplateData(expertise);
+            
+            // Debug: afficher les données dans la console
+            console.log('Données du publipostage:', templateData);
+            
+            for (const template of selectedTemplates) {
                 try {
-                    // Récupérer le contenu XML du document
-                    const files = zip.files;
-                    for (let fileName in files) {
-                        if (fileName.endsWith('.xml') && !fileName.startsWith('_')) {
-                            let content = files[fileName].asText();
-                            // Chercher les balises au format «NomChamp»
-                            const matches = content.match(/«([^»]+)»/g);
-                            if (matches) {
-                                console.log('Balises Word détectées:', matches);
-                                // Remplacer «NomChamp» par {NomChamp}
-                                matches.forEach(match => {
-                                    const fieldName = match.replace(/«|»/g, '');
-                                    content = content.replace(new RegExp(match, 'g'), `{${fieldName}}`);
-                                });
-                                // Mettre à jour le contenu dans le zip
-                                zip.file(fileName, content);
+                    const zip = new PizZip(template.content);
+                    
+                    // Convertir les balises Word «» en balises docxtemplater {}
+                    try {
+                        const files = zip.files;
+                        for (let fileName in files) {
+                            if (fileName.endsWith('.xml') && !fileName.startsWith('_')) {
+                                let content = files[fileName].asText();
+                                const matches = content.match(/«([^»]+)»/g);
+                                if (matches) {
+                                    console.log('Balises Word détectées:', matches);
+                                    matches.forEach(match => {
+                                        const fieldName = match.replace(/«|»/g, '');
+                                        content = content.replace(new RegExp(match, 'g'), `{${fieldName}}`);
+                                    });
+                                    zip.file(fileName, content);
+                                }
                             }
                         }
+                    } catch (e) {
+                        console.log('Erreur lors de la conversion des balises:', e);
                     }
-                } catch (e) {
-                    console.log('Erreur lors de la conversion des balises:', e);
-                }
-                
-                // Créer le document avec docxtemplater
-                const doc = new docxtemplater();
-                doc.loadZip(zip);
-                doc.setOptions({
-                    paragraphLoop: true,
-                    linebreaks: true,
-                    nullGetter: function() { 
-                        return ''; 
+                    
+                    const doc = new docxtemplater();
+                    doc.loadZip(zip);
+                    doc.setOptions({
+                        paragraphLoop: true,
+                        linebreaks: true,
+                        nullGetter: function() { 
+                            return ''; 
+                        }
+                    });
+                    
+                    doc.setData(templateData);
+                    
+                    try {
+                        doc.render();
+                    } catch (error) {
+                        console.error('Erreur lors du rendu:', error);
+                        throw error;
                     }
-                });
-                
-                // Définir les données
-                doc.setData(templateData);
-                
-                // Rendre le document
-                try {
-                    doc.render();
+                    
+                    const blob = doc.getZip().generate({
+                        type: 'blob',
+                        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                    });
+                    
+                    // Nom du fichier
+                    const fileName = `${expertise.patientName.replace(/\s+/g, '_')}_${template.name.replace('.docx', '')}_${new Date().toISOString().split('T')[0]}.docx`;
+                    
+                    // Sauvegarder dans l'historique
+                    const docRecord = {
+                        id: Date.now() + Math.random(), // Use Math.random for unique ID when generating multiple docs quickly
+                        fileName: fileName,
+                        expertiseId: expertiseId,
+                        patientName: expertise.patientName,
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    appState.data.documents.push(docRecord);
+                    saveData();
+                    updateUI();
+                    
+                    // Télécharger le document
+                    if (typeof saveAs !== 'undefined') {
+                        saveAs(blob, fileName);
+                    } else {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = fileName;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }
+                    showToast(`Document "${fileName}" généré avec succès`);
+                    
                 } catch (error) {
-                    console.error('Erreur lors du rendu:', error);
-                    throw error;
+                    console.error(`Erreur lors de la génération du document pour ${template.name}:`, error);
+                    showToast(`Erreur lors de la génération du document pour ${template.name}`);
                 }
-                
-                // Générer le document
-                const blob = doc.getZip().generate({
-                    type: 'blob',
-                    mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-                });
-                
-                // Nom du fichier
-                const fileName = `${expertise.patientName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.docx`;
-                
-                // Sauvegarder dans l'historique
-                const docRecord = {
-                    id: Date.now(),
-                    fileName: fileName,
-                    expertiseId: expertiseId,
-                    patientName: expertise.patientName,
-                    createdAt: new Date().toISOString()
-                };
-                
-                appState.data.documents.push(docRecord);
-                saveData();
-                updateUI();
-                
-                // Télécharger le document
-                if (typeof saveAs !== 'undefined') {
-                    saveAs(blob, fileName);
-                } else {
-                    // Fallback si FileSaver n'est pas chargé
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = fileName;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                }
-                showToast('Document généré avec succès');
-                
-            } catch (error) {
-                console.error('Erreur lors de la génération du document:', error);
-                showToast('Erreur lors de la génération du document');
             }
         }
         
